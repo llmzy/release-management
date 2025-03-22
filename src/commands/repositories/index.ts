@@ -7,12 +7,13 @@
 
 /* eslint-disable sf-plugin/no-hardcoded-messages-flags */
 
-import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
+import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+
 import { RepositoryInfo, retrieveKnownRepositories } from '../../repositories.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'repositories');
+const messages = Messages.loadMessages('@llmzy/release-management', 'repositories');
 
 export type RepositoryResult = RepositoryInfo[];
 export default class Repositories extends SfCommand<RepositoryResult> {

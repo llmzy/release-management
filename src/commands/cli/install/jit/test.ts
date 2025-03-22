@@ -6,12 +6,14 @@
  */
 
 import { join } from 'node:path';
-import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+
 import { Messages } from '@salesforce/core';
+import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
+
 import { testJITInstall } from '../../../../jit.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.install.jit.test');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.install.jit.test');
 
 export default class Test extends SfCommand<void> {
   public static readonly summary = messages.getMessage('summary');

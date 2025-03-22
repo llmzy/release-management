@@ -1,6 +1,46 @@
-# plugin-release-management
+# @llmzy/release-management
 
-[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-release-management.svg?label=@salesforce/plugin-release-management)](https://www.npmjs.com/package/@salesforce/plugin-release-management) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-release-management.svg)](https://npmjs.org/package/@salesforce/plugin-release-management) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/plugin-release-management/main/LICENSE.txt)
+This package is a fork of [@salesforce/plugin-release-management@5.6.60](https://www.npmjs.com/package/@salesforce/plugin-release-management), modified to work with Llmzy's infrastructure for package signing and verification.
+
+[![NPM](https://img.shields.io/npm/v/@llmzy/release-management.svg?label=@llmzy/release-management)](https://www.npmjs.com/package/@llmzy/release-management) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-release-management.svg)](https://npmjs.org/package/@salesforce/plugin-release-management) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/plugin-release-management/main/LICENSE.txt)
+
+## Key Changes from Original Package
+
+This fork maintains the core functionality of the original package while
+adapting it for Llmzy's infrastructure:
+
+1. **Infrastructure Updates**
+
+   - Changed S3 bucket from `dfc-data-production` to `llmzy-downloads-001` (US
+     East/Ohio)
+   - Updated base URL from developer.salesforce.com to `sigs.llmzy.tools`
+   - Modified security paths to use `signatures/` prefix
+
+2. **Package Signing**
+
+   - Updated package.json to use `signatures` property instead of `sfdx`
+   - Maintained the same secure RSA-SHA256 signing process
+   - Preserved the ephemeral key pair generation for each signing operation
+
+3. **Security**
+   - Kept security-critical values hardcoded for enhanced security
+   - Maintained AWS credentials configuration via environment variables
+   - Preserved all core security features of the original package
+
+Note that this package does quite a bit more than we currently need for the
+Llmzy Release process and eventually we should probably move the few bits we
+need into an entirely new system. We currently depend on the following commands:
+
+- `llmzy-release npm package release --sign` - Signs and publishes npm packages with our
+  signature infrastructure
+- `llmzy-release plugins trust verify --npm <package>` - Verifies package signatures
+  during installation
+
+All other commands (CLI release management, channel promotion, artifact
+comparison, etc.) are inherited from the original package but are not currently
+used in the Llmzy release process.
+
+## Original Package Description
 
 Plugin designed to handle all tasks related to signing, releasing, and testing npm packages.
 
@@ -29,7 +69,33 @@ Once the package has been built and signed it will be published to npm. The comm
 ## Install
 
 ```bash
-sfdx plugins:install release-management@x.y.z
+npm install -g @llmzy/release-management
+```
+
+## Usage
+
+The package maintains all the functionality of the original with updated paths:
+
+```bash
+# Sign and release a package
+llmzy-release npm package release --sign
+
+# Verify a package
+llmzy-release plugins trust verify --npm <package-name>@<version>
+```
+
+Signature files will be stored at:
+
+- Public Key: `https://sigs.llmzy.tools/signatures/{packageName}/{version}.crt`
+- Signature: `https://sigs.llmzy.tools/signatures/{packageName}/{version}.sig`
+
+## Environment Variables
+
+Required AWS credentials:
+
+```bash
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
 ```
 
 ## Issues
@@ -88,32 +154,34 @@ sfdx plugins
 
 <!-- commands -->
 
-- [`sfdx channel promote`](#sfdx-channel-promote)
-- [`sfdx cli artifacts compare`](#sfdx-cli-artifacts-compare)
-- [`sfdx cli install jit test`](#sfdx-cli-install-jit-test)
-- [`sfdx cli install test`](#sfdx-cli-install-test)
-- [`sfdx cli release automerge`](#sfdx-cli-release-automerge)
-- [`sfdx cli release build`](#sfdx-cli-release-build)
-- [`sfdx cli releasenotes`](#sfdx-cli-releasenotes)
-- [`sfdx cli tarballs prepare`](#sfdx-cli-tarballs-prepare)
-- [`sfdx cli tarballs smoke`](#sfdx-cli-tarballs-smoke)
-- [`sfdx cli tarballs verify`](#sfdx-cli-tarballs-verify)
-- [`sfdx cli versions inspect`](#sfdx-cli-versions-inspect)
-- [`sfdx dependabot automerge`](#sfdx-dependabot-automerge)
-- [`sfdx github check closed`](#sfdx-github-check-closed)
-- [`sfdx npm dependencies pin`](#sfdx-npm-dependencies-pin)
-- [`sfdx npm package release`](#sfdx-npm-package-release)
-- [`sfdx plugins trust verify`](#sfdx-plugins-trust-verify)
-- [`sfdx repositories`](#sfdx-repositories)
+- [`llmzy-release channel promote`](#llmzy-release-channel-promote)
+- [`llmzy-release cli artifacts compare`](#llmzy-release-cli-artifacts-compare)
+- [`llmzy-release cli install jit test`](#llmzy-release-cli-install-jit-test)
+- [`llmzy-release cli install test`](#llmzy-release-cli-install-test)
+- [`llmzy-release cli latestrc build`](#llmzy-release-cli-latestrc-build)
+- [`llmzy-release cli release automerge`](#llmzy-release-cli-release-automerge)
+- [`llmzy-release cli release build`](#llmzy-release-cli-release-build)
+- [`llmzy-release cli releasenotes`](#llmzy-release-cli-releasenotes)
+- [`llmzy-release cli tarballs prepare`](#llmzy-release-cli-tarballs-prepare)
+- [`llmzy-release cli tarballs smoke`](#llmzy-release-cli-tarballs-smoke)
+- [`llmzy-release cli tarballs verify`](#llmzy-release-cli-tarballs-verify)
+- [`llmzy-release cli versions inspect`](#llmzy-release-cli-versions-inspect)
+- [`llmzy-release dependabot automerge`](#llmzy-release-dependabot-automerge)
+- [`llmzy-release github check closed`](#llmzy-release-github-check-closed)
+- [`llmzy-release npm dependencies pin`](#llmzy-release-npm-dependencies-pin)
+- [`llmzy-release npm package release`](#llmzy-release-npm-package-release)
+- [`llmzy-release plugins trust verify`](#llmzy-release-plugins-trust-verify)
+- [`llmzy-release repositories`](#llmzy-release-repositories)
 
-## `sfdx channel promote`
+## `llmzy-release channel promote`
 
 promote a s3 channel
 
 ```
 USAGE
-  $ sfdx channel promote -t <value> -c sf|sfdx [--json] [--flags-dir <value>] [-d] [-C <value>] [-p win|macos|deb...]
-    [-s <value>] [-m <value>] [-i] [-x] [-T linux-x64|linux-arm|win32-x64|win32-x86|darwin-x64...] [-v <value>]
+  $ llmzy-release channel promote -t <value> -c sf|sfdx [--json] [--flags-dir <value>] [-d] [-C <value>] [-p
+    win|macos|deb...] [-s <value>] [-m <value>] [-i] [-x] [-T linux-x64|linux-arm|win32-x64|win32-x86|darwin-x64...] [-v
+    <value>]
 
 FLAGS
   -C, --promote-from-channel=<value>     the channel name that you want to promote
@@ -142,18 +210,18 @@ DESCRIPTION
   promote a s3 channel
 
 EXAMPLES
-  $ sfdx channel promote --candidate latest-rc --target latest --platform win --platform mac
+  $ llmzy-release channel promote --candidate latest-rc --target latest --platform win --platform mac
 ```
 
-_See code: [src/commands/channel/promote.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/channel/promote.ts)_
+_See code: [src/commands/channel/promote.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/channel/promote.ts)_
 
-## `sfdx cli artifacts compare`
+## `llmzy-release cli artifacts compare`
 
 Look for breaking changes in artifacts (schemas and snapshots) from plugins. Must be run in CLI directory.
 
 ```
 USAGE
-  $ sfdx cli artifacts compare [--json] [--flags-dir <value>] [-p <value>...] [-r <value>] [-c <value>]
+  $ llmzy-release cli artifacts compare [--json] [--flags-dir <value>] [-p <value>...] [-r <value>] [-c <value>]
 
 FLAGS
   -c, --current=<value>    Current CLI version to compare against. Defaults to the version on the CLI in the current
@@ -166,18 +234,18 @@ GLOBAL FLAGS
   --json               Format output as json.
 
 EXAMPLES
-  $ sfdx cli artifacts compare
+  $ llmzy-release cli artifacts compare
 ```
 
-_See code: [src/commands/cli/artifacts/compare.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/artifacts/compare.ts)_
+_See code: [src/commands/cli/artifacts/compare.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/artifacts/compare.ts)_
 
-## `sfdx cli install jit test`
+## `llmzy-release cli install jit test`
 
 Test that all JIT plugins can be successfully installed.
 
 ```
 USAGE
-  $ sfdx cli install jit test [--json] [--flags-dir <value>] [-j <value>...]
+  $ llmzy-release cli install jit test [--json] [--flags-dir <value>] [-j <value>...]
 
 FLAGS
   -j, --jit-plugin=<value>...  JIT plugin(s) to test, example: @salesforce/plugin-community
@@ -187,18 +255,18 @@ GLOBAL FLAGS
   --json               Format output as json.
 
 EXAMPLES
-  $ sfdx cli install jit test
+  $ llmzy-release cli install jit test
 ```
 
-_See code: [src/commands/cli/install/jit/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/install/jit/test.ts)_
+_See code: [src/commands/cli/install/jit/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/install/jit/test.ts)_
 
-## `sfdx cli install test`
+## `llmzy-release cli install test`
 
 install sf or sfdx
 
 ```
 USAGE
-  $ sfdx cli install test -c sf|sfdx -m installer|npm|tarball [--json] [--flags-dir <value>] [--channel
+  $ llmzy-release cli install test -c sf|sfdx -m installer|npm|tarball [--json] [--flags-dir <value>] [--channel
     legacy|stable|stable-rc|latest|latest-rc] [--output-file <value>]
 
 FLAGS
@@ -220,57 +288,26 @@ DESCRIPTION
   install sf or sfdx
 
 EXAMPLES
-  $ sfdx cli install test --cli sfdx --method installer
+  $ llmzy-release cli install test --cli sfdx --method installer
 
-  $ sfdx cli install test --cli sfdx --method npm
+  $ llmzy-release cli install test --cli sfdx --method npm
 
-  $ sfdx cli install test --cli sfdx --method tarball
+  $ llmzy-release cli install test --cli sfdx --method tarball
 
-  $ sfdx cli install test --cli sf --method tarball
+  $ llmzy-release cli install test --cli sf --method tarball
 
-  $ sfdx cli install test --cli sf --method tarball --channel stable-rc
+  $ llmzy-release cli install test --cli sf --method tarball --channel stable-rc
 ```
 
-_See code: [src/commands/cli/install/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/install/test.ts)_
+_See code: [src/commands/cli/install/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/install/test.ts)_
 
-## `sfdx cli release automerge`
-
-Attempt to automerge nightly PR
-
-```
-USAGE
-  $ sfdx cli release automerge (--owner <value> --repo <value>) --pull-number <value> [--json] [--flags-dir <value>] [-d]
-    [--verbose]
-
-FLAGS
-  -d, --dry-run              Run all checks, but do not merge PR
-      --owner=<value>        (required) Github owner (org), example: salesforcecli
-      --pull-number=<value>  (required) Github pull request number to merge
-      --repo=<value>         (required) Github repo, example: sfdx-cli
-      --verbose              Show additional debug output
-
-GLOBAL FLAGS
-  --flags-dir=<value>  Import flag values from a directory.
-  --json               Format output as json.
-
-DESCRIPTION
-  Attempt to automerge nightly PR
-
-  Attempt to automerge nightly PR
-
-EXAMPLES
-  $ sfdx cli release automerge --owner salesforcecli --repo sfdx-cli --pul-number 1049
-```
-
-_See code: [src/commands/cli/release/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/release/automerge.ts)_
-
-## `sfdx cli release build`
+## `llmzy-release cli latestrc build`
 
 builds a new release from a designated starting point and optionally creates PR in Github
 
 ```
 USAGE
-  $ sfdx cli release build -c <value> [--json] [--flags-dir <value>] [-d <value>] [-g <value>] [--build-only]
+  $ llmzy-release cli latestrc build -c <value> [--json] [--flags-dir <value>] [-d <value>] [-g <value>] [--build-only]
     [--resolutions] [--only <value>...] [--pinned-deps] [--jit] [--label <value>...] [--patch] [--empty]
     [--pr-base-branch <value>]
 
@@ -303,37 +340,129 @@ DESCRIPTION
   builds a new release from a designated starting point and optionally creates PR in Github
 
 ALIASES
-  $ sfdx cli latestrc build
+  $ llmzy-release cli latestrc build
 
 EXAMPLES
-  $ sfdx cli release build
+  $ llmzy-release cli latestrc build
 
-  $ sfdx cli release build --patch
+  $ llmzy-release cli latestrc build --patch
 
-  $ sfdx cli release build --start-from-npm-dist-tag latest-rc --patch
+  $ llmzy-release cli latestrc build --start-from-npm-dist-tag latest-rc --patch
 
-  $ sfdx cli release build --start-from-github-ref 7.144.0
+  $ llmzy-release cli latestrc build --start-from-github-ref 7.144.0
 
-  $ sfdx cli release build --start-from-github-ref main
+  $ llmzy-release cli latestrc build --start-from-github-ref main
 
-  $ sfdx cli release build --start-from-github-ref f476e8e
+  $ llmzy-release cli latestrc build --start-from-github-ref f476e8e
 
-  $ sfdx cli release build --start-from-github-ref main --prerelease beta
+  $ llmzy-release cli latestrc build --start-from-github-ref main --prerelease beta
 
-  $ sfdx cli release build --build-only
+  $ llmzy-release cli latestrc build --build-only
 
-  $ sfdx cli release build --only @salesforce/plugin-source,@salesforce/plugin-info@1.2.3
+  $ llmzy-release cli latestrc build --only @salesforce/plugin-source,@salesforce/plugin-info@1.2.3
 ```
 
-_See code: [src/commands/cli/release/build.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/release/build.ts)_
+## `llmzy-release cli release automerge`
 
-## `sfdx cli releasenotes`
+Attempt to automerge nightly PR
+
+```
+USAGE
+  $ llmzy-release cli release automerge (--owner <value> --repo <value>) --pull-number <value> [--json] [--flags-dir
+    <value>] [-d] [--verbose]
+
+FLAGS
+  -d, --dry-run              Run all checks, but do not merge PR
+      --owner=<value>        (required) Github owner (org), example: salesforcecli
+      --pull-number=<value>  (required) Github pull request number to merge
+      --repo=<value>         (required) Github repo, example: sfdx-cli
+      --verbose              Show additional debug output
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Attempt to automerge nightly PR
+
+  Attempt to automerge nightly PR
+
+EXAMPLES
+  $ llmzy-release cli release automerge --owner salesforcecli --repo sfdx-cli --pul-number 1049
+```
+
+_See code: [src/commands/cli/release/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/release/automerge.ts)_
+
+## `llmzy-release cli release build`
+
+builds a new release from a designated starting point and optionally creates PR in Github
+
+```
+USAGE
+  $ llmzy-release cli release build -c <value> [--json] [--flags-dir <value>] [-d <value>] [-g <value>] [--build-only]
+    [--resolutions] [--only <value>...] [--pinned-deps] [--jit] [--label <value>...] [--patch] [--empty]
+    [--pr-base-branch <value>]
+
+FLAGS
+  -c, --release-channel=<value>          (required) the channel intended for this release, examples: nightly, latest-rc,
+                                         latest, dev, beta, etc...
+  -d, --start-from-npm-dist-tag=<value>  the npm dist-tag to start the release from, examples: nightly, latest-rc
+  -g, --start-from-github-ref=<value>    a Github ref to start the release from, examples: main, 7.144.0, f476e8e
+      --build-only                       only build the release, do not git add/commit/push
+      --empty                            create an empty release PR for pushing changes to later (version will still be
+                                         bumped)
+      --[no-]jit                         bump the versions of the packages listed in the jitPlugins (just-in-time)
+                                         section
+      --label=<value>...                 add one or more labels to the Github PR
+      --only=<value>...                  only bump the version of the packages passed in, uses latest if version is not
+                                         provided
+      --patch                            bump the release as a patch of an existing version, not a new minor version
+      --[no-]pinned-deps                 bump the versions of the packages listed in the pinnedDependencies section
+      --pr-base-branch=<value>           base branch to create the PR against; if not specified, the build determines
+                                         the branch for you
+      --[no-]resolutions                 bump the versions of packages listed in the resolutions section
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  builds a new release from a designated starting point and optionally creates PR in Github
+
+  builds a new release from a designated starting point and optionally creates PR in Github
+
+ALIASES
+  $ llmzy-release cli latestrc build
+
+EXAMPLES
+  $ llmzy-release cli release build
+
+  $ llmzy-release cli release build --patch
+
+  $ llmzy-release cli release build --start-from-npm-dist-tag latest-rc --patch
+
+  $ llmzy-release cli release build --start-from-github-ref 7.144.0
+
+  $ llmzy-release cli release build --start-from-github-ref main
+
+  $ llmzy-release cli release build --start-from-github-ref f476e8e
+
+  $ llmzy-release cli release build --start-from-github-ref main --prerelease beta
+
+  $ llmzy-release cli release build --build-only
+
+  $ llmzy-release cli release build --only @salesforce/plugin-source,@salesforce/plugin-info@1.2.3
+```
+
+_See code: [src/commands/cli/release/build.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/release/build.ts)_
+
+## `llmzy-release cli releasenotes`
 
 pull all relevant information for writing release notes.
 
 ```
 USAGE
-  $ sfdx cli releasenotes -c sf|sfdx [--json] [--flags-dir <value>] [-s <value>] [-m]
+  $ llmzy-release cli releasenotes -c sf|sfdx [--json] [--flags-dir <value>] [-s <value>] [-m]
 
 FLAGS
   -c, --cli=<option>   (required) the cli to pull information for
@@ -353,28 +482,28 @@ DESCRIPTION
   Requires the GH_TOKEN to be set in the environment.
 
 EXAMPLES
-  $ sfdx cli releasenotes --cli sf
+  $ llmzy-release cli releasenotes --cli sf
 
-  $ sfdx cli releasenotes --cli sfdx
+  $ llmzy-release cli releasenotes --cli sfdx
 
-  $ sfdx cli releasenotes --cli sf --since 1.0.0
+  $ llmzy-release cli releasenotes --cli sf --since 1.0.0
 
-  $ sfdx cli releasenotes --cli sfdx --since 7.19.0
+  $ llmzy-release cli releasenotes --cli sfdx --since 7.19.0
 
-  $ sfdx cli releasenotes --cli sf > changes.txt
+  $ llmzy-release cli releasenotes --cli sf > changes.txt
 
-  $ sfdx cli releasenotes --cli sf --markdown > changes.md
+  $ llmzy-release cli releasenotes --cli sf --markdown > changes.md
 ```
 
-_See code: [src/commands/cli/releasenotes.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/releasenotes.ts)_
+_See code: [src/commands/cli/releasenotes.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/releasenotes.ts)_
 
-## `sfdx cli tarballs prepare`
+## `llmzy-release cli tarballs prepare`
 
 remove unnecessary files from node_modules
 
 ```
 USAGE
-  $ sfdx cli tarballs prepare [--json] [--flags-dir <value>] [-d] [-t] [--verbose]
+  $ llmzy-release cli tarballs prepare [--json] [--flags-dir <value>] [-d] [-t] [--verbose]
 
 FLAGS
   -d, --dryrun   only show what would be removed from node_modules
@@ -391,18 +520,18 @@ DESCRIPTION
   remove unnecessary files from node_modules
 
 EXAMPLES
-  $ sfdx cli tarballs prepare
+  $ llmzy-release cli tarballs prepare
 ```
 
-_See code: [src/commands/cli/tarballs/prepare.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/tarballs/prepare.ts)_
+_See code: [src/commands/cli/tarballs/prepare.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/tarballs/prepare.ts)_
 
-## `sfdx cli tarballs smoke`
+## `llmzy-release cli tarballs smoke`
 
 smoke tests for the sf CLI
 
 ```
 USAGE
-  $ sfdx cli tarballs smoke [--json] [--flags-dir <value>] [--verbose]
+  $ llmzy-release cli tarballs smoke [--json] [--flags-dir <value>] [--verbose]
 
 FLAGS
   --verbose  show the --help output for each command
@@ -419,20 +548,20 @@ DESCRIPTION
   Tests that the CLI and every command can be initialized.
 
 EXAMPLES
-  $ sfdx cli tarballs smoke
+  $ llmzy-release cli tarballs smoke
 
-  $ sfdx cli tarballs smoke
+  $ llmzy-release cli tarballs smoke
 ```
 
-_See code: [src/commands/cli/tarballs/smoke.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/tarballs/smoke.ts)_
+_See code: [src/commands/cli/tarballs/smoke.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/tarballs/smoke.ts)_
 
-## `sfdx cli tarballs verify`
+## `llmzy-release cli tarballs verify`
 
 verify that tarballs are ready to be uploaded
 
 ```
 USAGE
-  $ sfdx cli tarballs verify [--json] [--flags-dir <value>] [-c sf|sfdx] [-w <value>]
+  $ llmzy-release cli tarballs verify [--json] [--flags-dir <value>] [-c sf|sfdx] [-w <value>]
 
 FLAGS
   -c, --cli=<option>                     [default: sfdx] the cli to verify
@@ -449,23 +578,23 @@ DESCRIPTION
   verify that tarballs are ready to be uploaded
 
 EXAMPLES
-  $ sfdx cli tarballs verify
+  $ llmzy-release cli tarballs verify
 
-  $ sfdx cli tarballs verify --cli sfdx
+  $ llmzy-release cli tarballs verify --cli sfdx
 
-  $ sfdx cli tarballs verify --cli sf
+  $ llmzy-release cli tarballs verify --cli sf
 ```
 
-_See code: [src/commands/cli/tarballs/verify.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/tarballs/verify.ts)_
+_See code: [src/commands/cli/tarballs/verify.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/tarballs/verify.ts)_
 
-## `sfdx cli versions inspect`
+## `llmzy-release cli versions inspect`
 
 inspect the CLI version across all install paths
 
 ```
 USAGE
-  $ sfdx cli versions inspect -c stable|stable-rc|latest|latest-rc|nightly... -l archive|npm... [--json] [--flags-dir
-    <value>] [-d <value>...] [-s] [--ignore-missing]
+  $ llmzy-release cli versions inspect -c stable|stable-rc|latest|latest-rc|nightly... -l archive|npm... [--json]
+    [--flags-dir <value>] [-d <value>...] [-s] [--ignore-missing]
 
 FLAGS
   -c, --channels=<option>...     (required) the channel you want to inspect (for achives, latest and latest-rc are
@@ -487,37 +616,37 @@ DESCRIPTION
   inspect the CLI version across all install paths
 
 EXAMPLES
-  $ sfdx cli versions inspect -l archive -c stable
+  $ llmzy-release cli versions inspect -l archive -c stable
 
-  $ sfdx cli versions inspect -l archive -c stable-rc
+  $ llmzy-release cli versions inspect -l archive -c stable-rc
 
-  $ sfdx cli versions inspect -l archive npm -c stable
+  $ llmzy-release cli versions inspect -l archive npm -c stable
 
-  $ sfdx cli versions inspect -l archive npm -c latest
+  $ llmzy-release cli versions inspect -l archive npm -c latest
 
-  $ sfdx cli versions inspect -l archive npm -c latest latest-rc
+  $ llmzy-release cli versions inspect -l archive npm -c latest latest-rc
 
-  $ sfdx cli versions inspect -l archive npm -c stable stable-rc
+  $ llmzy-release cli versions inspect -l archive npm -c stable stable-rc
 
-  $ sfdx cli versions inspect -l npm -c latest --salesforce
+  $ llmzy-release cli versions inspect -l npm -c latest --salesforce
 
-  $ sfdx cli versions inspect -l npm -c latest -d @salesforce/core
+  $ llmzy-release cli versions inspect -l npm -c latest -d @salesforce/core
 
-  $ sfdx cli versions inspect -l npm -c latest -d @salesforce/\*\*/ salesforce-alm
+  $ llmzy-release cli versions inspect -l npm -c latest -d @salesforce/\*\*/ salesforce-alm
 
-  $ sfdx cli versions inspect -l npm -c latest -d chalk -s
+  $ llmzy-release cli versions inspect -l npm -c latest -d chalk -s
 ```
 
-_See code: [src/commands/cli/versions/inspect.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/cli/versions/inspect.ts)_
+_See code: [src/commands/cli/versions/inspect.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/versions/inspect.ts)_
 
-## `sfdx dependabot automerge`
+## `llmzy-release dependabot automerge`
 
 automatically merge one green, mergeable PR up to the specified maximum bump type
 
 ```
 USAGE
-  $ sfdx dependabot automerge -m major|minor|patch [--json] [--flags-dir <value>] [-o <value> -r <value>] [-d] [-s]
-    [--merge-method merge|squash|rebase]
+  $ llmzy-release dependabot automerge -m major|minor|patch [--json] [--flags-dir <value>] [-o <value> -r <value>] [-d]
+    [-s] [--merge-method merge|squash|rebase]
 
 FLAGS
   -d, --dryrun                     only show what would happen if you consolidated dependabot PRs
@@ -541,22 +670,22 @@ DESCRIPTION
   automatically merge one green, mergeable PR up to the specified maximum bump type
 
 EXAMPLES
-  $ sfdx dependabot automerge --max-version-bump patch
+  $ llmzy-release dependabot automerge --max-version-bump patch
 
-  $ sfdx dependabot automerge --max-version-bump minor
+  $ llmzy-release dependabot automerge --max-version-bump minor
 
-  $ sfdx dependabot automerge --max-version-bump major
+  $ llmzy-release dependabot automerge --max-version-bump major
 ```
 
-_See code: [src/commands/dependabot/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/dependabot/automerge.ts)_
+_See code: [src/commands/dependabot/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/dependabot/automerge.ts)_
 
-## `sfdx github check closed`
+## `llmzy-release github check closed`
 
 Show open Github issues with GUS WI
 
 ```
 USAGE
-  $ sfdx github check closed -o <value> --github-token <value> [--json] [--flags-dir <value>]
+  $ llmzy-release github check closed -o <value> --github-token <value> [--json] [--flags-dir <value>]
 
 FLAGS
   -o, --gus=<value>           (required) Username/alias of your GUS org connection
@@ -572,18 +701,18 @@ DESCRIPTION
   Description of a command.
 
 EXAMPLES
-  $ sfdx github check closed -o me@gus.com
+  $ llmzy-release github check closed -o me@gus.com
 ```
 
-_See code: [src/commands/github/check/closed.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/github/check/closed.ts)_
+_See code: [src/commands/github/check/closed.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/github/check/closed.ts)_
 
-## `sfdx npm dependencies pin`
+## `llmzy-release npm dependencies pin`
 
 lock a list of dependencies to a target tag or default to 'latest', place these entries in 'pinnedDependencies' entry in the package.json
 
 ```
 USAGE
-  $ sfdx npm dependencies pin [--json] [--flags-dir <value>] [-d] [-t <value>]
+  $ llmzy-release npm dependencies pin [--json] [--flags-dir <value>] [-d] [-t <value>]
 
 FLAGS
   -d, --dryrun       If true, will not make any changes to the package.json
@@ -601,16 +730,16 @@ DESCRIPTION
   in the package.json
 ```
 
-_See code: [src/commands/npm/dependencies/pin.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/npm/dependencies/pin.ts)_
+_See code: [src/commands/npm/dependencies/pin.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/npm/dependencies/pin.ts)_
 
-## `sfdx npm package release`
+## `llmzy-release npm package release`
 
 publish npm package
 
 ```
 USAGE
-  $ sfdx npm package release [--json] [--flags-dir <value>] [-d] [-s] [-t <value>] [-a <value>] [--install] [--prerelease
-    <value>] [--verify] [--githubtag <value>]
+  $ llmzy-release npm package release [--json] [--flags-dir <value>] [-d] [-s] [-t <value>] [-a <value>] [--install]
+    [--prerelease <value>] [--verify] [--githubtag <value>]
 
 FLAGS
   -a, --npmaccess=<value>   [default: public] access level to use when publishing to npm
@@ -633,15 +762,15 @@ DESCRIPTION
   publish npm package
 ```
 
-_See code: [src/commands/npm/package/release.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/npm/package/release.ts)_
+_See code: [src/commands/npm/package/release.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/npm/package/release.ts)_
 
-## `sfdx plugins trust verify`
+## `llmzy-release plugins trust verify`
 
 Validate a digital signature.
 
 ```
 USAGE
-  $ sfdx plugins trust verify -n <value> [--json] [--flags-dir <value>] [-r <value>]
+  $ llmzy-release plugins trust verify -n <value> [--json] [--flags-dir <value>] [-r <value>]
 
 FLAGS
   -n, --npm=<value>       (required) Specify the npm name. This can include a tag/version.
@@ -657,21 +786,21 @@ DESCRIPTION
   Verifies the digital signature on an npm package matches the signature and key stored at the expected URLs.
 
 EXAMPLES
-  $ sfdx plugins trust verify --npm @scope/npmName --registry https://npm.pkg.github.com
+  $ llmzy-release plugins trust verify --npm @scope/npmName --registry https://npm.pkg.github.com
 
-  $ sfdx plugins trust verify --npm @scope/npmName
+  $ llmzy-release plugins trust verify --npm @scope/npmName
 ```
 
-_See code: [@salesforce/plugin-trust](https://github.com/salesforcecli/plugin-trust/blob/3.7.69/src/commands/plugins/trust/verify.ts)_
+_See code: [@salesforce/plugin-trust](https://github.com/salesforcecli/plugin-trust/blob/v3.7.69/src/commands/plugins/trust/verify.ts)_
 
-## `sfdx repositories`
+## `llmzy-release repositories`
 
 list repositories owned and supported by Salesforce CLI
 
 ```
 USAGE
-  $ sfdx repositories [--json] [--flags-dir <value>] [--columns <value> | -x] [--filter <value>] [--no-header |
-    [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
+  $ llmzy-release repositories [--json] [--flags-dir <value>] [--columns <value> | -x] [--filter <value>]
+    [--no-header | [--csv | --no-truncate]] [--output csv|json|yaml |  | ] [--sort <value>]
 
 FLAGS
   -x, --extended         Show extra columns.
@@ -696,11 +825,11 @@ DESCRIPTION
   For more information on the list of repositories, visit https://github.com/salesforcecli/status.
 
 EXAMPLES
-  $ sfdx repositories --columns=url --filter='Name=sfdx-core' --no-header | xargs open
+  $ llmzy-release repositories --columns=url --filter='Name=sfdx-core' --no-header | xargs open
 
-  $ sfdx repositories --json | jq -r '.result[] | select(.name=="sfdx-core") | .packages[] | .url
+  $ llmzy-release repositories --json | jq -r '.result[] | select(.name=="sfdx-core") | .packages[] | .url
 ```
 
-_See code: [src/commands/repositories/index.ts](https://github.com/salesforcecli/plugin-release-management/blob/5.6.60/src/commands/repositories/index.ts)_
+_See code: [src/commands/repositories/index.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/repositories/index.ts)_
 
 <!-- commandsstop -->

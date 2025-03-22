@@ -6,6 +6,7 @@
  */
 import { Config } from '@oclif/core';
 import { expect, config as chaiConfig } from 'chai';
+
 import Inspect from '../../src/commands/cli/versions/inspect.js';
 import { Channel, Info, Location } from '../../src/commands/cli/versions/inspect.js';
 

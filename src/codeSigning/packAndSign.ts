@@ -6,16 +6,19 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import fs from 'node:fs/promises';
 import cp from 'node:child_process';
+import fs from 'node:fs/promises';
 import { EOL } from 'node:os';
 import { join as pathJoin } from 'node:path';
-import { Agents } from 'got';
-import { Ux } from '@salesforce/sf-plugins-core';
+
 import { Logger, SfError } from '@salesforce/core';
-import { ProxyAgent } from 'proxy-agent';
 import { parseNpmName } from '@salesforce/plugin-trust/npmName';
+import { Ux } from '@salesforce/sf-plugins-core';
+import { Agents } from 'got';
+import { ProxyAgent } from 'proxy-agent';
+
 import { PackageJson } from '../package.js';
+
 import { signVerifyUpload as sign2, SigningResponse, getSfdxProperty } from './SimplifiedSigning.js';
 
 class PathGetter {

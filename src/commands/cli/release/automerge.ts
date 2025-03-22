@@ -5,16 +5,16 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 /* eslint-disable camelcase*/
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Octokit } from '@octokit/core';
 import { components } from '@octokit/openapi-types';
-import { Env } from '@salesforce/kit';
-import { type AnyJson, ensureString } from '@salesforce/ts-types';
 import { Messages, SfError } from '@salesforce/core';
+import { Env } from '@salesforce/kit';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { type AnyJson, ensureString } from '@salesforce/ts-types';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.release.automerge');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.release.automerge');
 
 type BaseRepoParams = {
   owner: string;

@@ -4,10 +4,11 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import { TestContext } from '@salesforce/core/testSetup';
 import AWS from 'aws-sdk';
 import AWSMock from 'aws-sdk-mock';
 import { expect } from 'chai';
-import { TestContext } from '@salesforce/core/testSetup';
+
 import { putObject } from '../../src/codeSigning/upload.js';
 
 describe('Upload', () => {

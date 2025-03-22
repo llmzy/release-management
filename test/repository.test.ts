@@ -5,11 +5,12 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { expect } from 'chai';
 import { TestContext } from '@salesforce/core/testSetup';
-import { stubMethod, stubInterface } from '@salesforce/ts-sinon';
-import sinon from 'sinon';
 import { Ux } from '@salesforce/sf-plugins-core';
+import { stubMethod, stubInterface } from '@salesforce/ts-sinon';
+import { expect } from 'chai';
+import sinon from 'sinon';
+
 import { Package } from '../src/package.js';
 import { PackageRepo } from '../src/repository.js';
 

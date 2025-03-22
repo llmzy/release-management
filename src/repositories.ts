@@ -6,6 +6,7 @@
  */
 
 import got from 'got';
+
 import { api } from './codeSigning/packAndSign.js';
 
 const KNOWN_REPOSITORIES_URL = 'https://raw.githubusercontent.com/salesforcecli/status/main/repositories.json';

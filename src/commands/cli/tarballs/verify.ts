@@ -7,18 +7,20 @@
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import fg from 'fast-glob';
-import shelljs from 'shelljs';
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+
+import { Interfaces } from '@oclif/core';
 import { Messages, SfError } from '@salesforce/core';
+import { parseJson } from '@salesforce/kit';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { ensure, ensureNumber, get } from '@salesforce/ts-types';
 import chalk from 'chalk';
-import { parseJson } from '@salesforce/kit';
-import { Interfaces } from '@oclif/core';
+import fg from 'fast-glob';
+import shelljs from 'shelljs';
+
 import { CLI } from '../../../types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.tarballs.verify');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.tarballs.verify');
 
 const PASSED = chalk.green.bold('PASSED');
 const FAILED = chalk.red.bold('FAILED');

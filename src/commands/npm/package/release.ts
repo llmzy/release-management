@@ -6,18 +6,20 @@
  */
 
 import os from 'node:os';
-import chalk from 'chalk';
-import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+
 import { Messages, SfError } from '@salesforce/core';
-import shelljs from 'shelljs';
+import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { isString } from '@salesforce/ts-types';
-import { PackageInfo } from '../../../repository.js';
-import { verifyDependencies } from '../../../dependencies.js';
-import { Access, PackageRepo } from '../../../repository.js';
+import chalk from 'chalk';
+import shelljs from 'shelljs';
+
 import { SigningResponse } from '../../../codeSigning/SimplifiedSigning.js';
+import { verifyDependencies } from '../../../dependencies.js';
+import { PackageInfo } from '../../../repository.js';
+import { Access, PackageRepo } from '../../../repository.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'npm.package.release');
+const messages = Messages.loadMessages('@llmzy/release-management', 'npm.package.release');
 
 export type ReleaseResult = {
   version: string;

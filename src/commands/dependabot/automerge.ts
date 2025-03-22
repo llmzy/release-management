@@ -5,20 +5,18 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, camelcase*/
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Octokit } from '@octokit/core';
-import { Env } from '@salesforce/kit';
-import { type AnyJson, ensureString } from '@salesforce/ts-types';
 import { Messages } from '@salesforce/core';
+import { Env } from '@salesforce/kit';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { type AnyJson, ensureString } from '@salesforce/ts-types';
+
 import { maxVersionBumpFlag, getOwnerAndRepo } from '../../dependabot.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'dependabot.automerge');
-const messagesFromConsolidate = Messages.loadMessages(
-  '@salesforce/plugin-release-management',
-  'dependabot.consolidate'
-);
+const messages = Messages.loadMessages('@llmzy/release-management', 'dependabot.automerge');
+const messagesFromConsolidate = Messages.loadMessages('@llmzy/release-management', 'dependabot.consolidate');
 
 type PullRequest = {
   state: string;

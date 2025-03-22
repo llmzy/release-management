@@ -5,14 +5,14 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { Messages } from '@salesforce/core';
 import { Octokit } from '@octokit/core';
 import { throttling } from '@octokit/plugin-throttling';
+import { Messages } from '@salesforce/core';
+import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { ensureString, isObject } from '@salesforce/ts-types';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'github.check.closed');
+const messages = Messages.loadMessages('@llmzy/release-management', 'github.check.closed');
 
 type GithubCheckClosedResultItem = {
   issueUrl: string;

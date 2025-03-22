@@ -23,13 +23,15 @@
  */
 import { generateKeyPair, createSign, createVerify } from 'node:crypto';
 import { createReadStream } from 'node:fs';
+
 import { S3 } from 'aws-sdk';
+
 import { putObject } from '../codeSigning/upload.js';
 import { PackageJsonSfdxProperty } from '../package.js';
 const CRYPTO_LEVEL = 'RSA-SHA256';
-const BUCKET = 'dfc-data-production';
-export const BASE_URL = 'https://developer.salesforce.com';
-export const SECURITY_PATH = 'media/salesforce-cli/security';
+const BUCKET = 'llmzy-downloads-001';
+export const BASE_URL = 'https://sigs.llmzy.tools';
+export const SECURITY_PATH = 'signatures';
 
 type SigningRequest = {
   /** path to the file on local FS */

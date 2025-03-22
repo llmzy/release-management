@@ -19,7 +19,7 @@
       "version",
       "xz"
     ],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -27,7 +27,7 @@
     "flagAliases": [],
     "flagChars": ["c", "p", "r"],
     "flags": ["current", "flags-dir", "json", "plugin", "previous"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -35,7 +35,7 @@
     "flagAliases": [],
     "flagChars": ["j"],
     "flags": ["flags-dir", "jit-plugin", "json"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -43,7 +43,7 @@
     "flagAliases": [],
     "flagChars": ["c", "m"],
     "flags": ["channel", "cli", "flags-dir", "json", "method", "output-file"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -51,7 +51,7 @@
     "flagAliases": ["org"],
     "flagChars": ["d"],
     "flags": ["dry-run", "flags-dir", "json", "owner", "pull-number", "repo", "verbose"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": ["cli:latestrc:build"],
@@ -74,7 +74,7 @@
       "start-from-github-ref",
       "start-from-npm-dist-tag"
     ],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -82,7 +82,7 @@
     "flagAliases": [],
     "flagChars": ["c", "m", "s"],
     "flags": ["cli", "flags-dir", "json", "markdown", "since"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -90,7 +90,7 @@
     "flagAliases": [],
     "flagChars": ["d", "t"],
     "flags": ["dryrun", "flags-dir", "json", "types", "verbose"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -98,7 +98,7 @@
     "flagAliases": [],
     "flagChars": [],
     "flags": ["flags-dir", "json", "verbose"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -106,7 +106,7 @@
     "flagAliases": [],
     "flagChars": ["c", "w"],
     "flags": ["cli", "flags-dir", "json", "windows-username-buffer"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -114,7 +114,7 @@
     "flagAliases": [],
     "flagChars": ["c", "d", "l", "s"],
     "flags": ["channels", "dependencies", "flags-dir", "ignore-missing", "json", "locations", "salesforce"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -122,7 +122,7 @@
     "flagAliases": [],
     "flagChars": ["d", "m", "o", "r", "s"],
     "flags": ["dryrun", "flags-dir", "json", "max-version-bump", "merge-method", "owner", "repo", "skip-ci"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -130,7 +130,7 @@
     "flagAliases": [],
     "flagChars": ["o"],
     "flags": ["flags-dir", "github-token", "gus", "json"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -138,7 +138,7 @@
     "flagAliases": [],
     "flagChars": ["d", "t"],
     "flags": ["dryrun", "flags-dir", "json", "tag"],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -157,7 +157,7 @@
       "sign",
       "verify"
     ],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],
@@ -184,6 +184,6 @@
       "output",
       "sort"
     ],
-    "plugin": "@salesforce/plugin-release-management"
+    "plugin": "@llmzy/release-management"
   }
 ]

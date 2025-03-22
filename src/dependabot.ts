@@ -5,14 +5,16 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import fs from 'node:fs';
-import { Flags } from '@salesforce/sf-plugins-core';
+
 import { Messages } from '@salesforce/core';
 import { parseJson } from '@salesforce/kit';
+import { Flags } from '@salesforce/sf-plugins-core';
 import { ensureString, isString } from '@salesforce/ts-types';
+
 import { PackageJson } from './package.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'dependabot.consolidate');
+const messages = Messages.loadMessages('@llmzy/release-management', 'dependabot.consolidate');
 
 export const maxVersionBumpFlag = Flags.string({
   description: messages.getMessage('maxVersionBump'),

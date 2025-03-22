@@ -5,11 +5,12 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import sinon from 'sinon';
 import { Config } from '@oclif/core';
-import { expect } from 'chai';
 import { stubMethod, fromStub, stubInterface } from '@salesforce/ts-sinon';
+import { expect } from 'chai';
 import got from 'got';
+import sinon from 'sinon';
+
 import Repositories from '../../src/commands/repositories/index.js';
 
 describe('repositories', () => {

@@ -6,12 +6,14 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import semver from 'semver';
+
 import { ux } from '@oclif/core';
-import shelljs from 'shelljs';
 import { SfError } from '@salesforce/core';
 import { AsyncOptionalCreatable, findKey, parseJson } from '@salesforce/kit';
 import { AnyJson, isObject, isPlainObject } from '@salesforce/ts-types';
+import semver from 'semver';
+import shelljs from 'shelljs';
+
 import { Registry } from './registry.js';
 
 export type PackageJson = {

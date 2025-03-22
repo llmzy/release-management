@@ -6,12 +6,13 @@
  */
 /* eslint-disable sf-plugin/command-example */
 
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+
 import { ChangedPackageVersions, Package } from '../../../package.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'npm.dependencies.pin');
+const messages = Messages.loadMessages('@llmzy/release-management', 'npm.dependencies.pin');
 
 export default class Pin extends SfCommand<ChangedPackageVersions> {
   public static readonly summary = messages.getMessage('description');
