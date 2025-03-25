@@ -47,7 +47,7 @@
   },
   "config": {},
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "/lib",
@@ -71,7 +71,7 @@
   "license": "BSD-3-Clause",
   "oclif": {
     "commands": "./lib/commands",
-    "node": "20.0.0",
+    "node": "18.0.0",
     "bin": "llmzy-release",
     "plugins": [
       "@salesforce/plugin-trust"
