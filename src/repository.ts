@@ -1,23 +1,23 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
 import os from 'node:os';
-
-import { Logger, SfError } from '@salesforce/core';
+import shelljs from 'shelljs';
+import chalk from 'chalk';
 import { AsyncOptionalCreatable, Env, sleep } from '@salesforce/kit';
 import { Ux } from '@salesforce/sf-plugins-core';
-import { isString } from '@salesforce/ts-types';
-import chalk from 'chalk';
-import shelljs from 'shelljs';
-
+import { SfError } from '@salesforce/core';
+import { Registry } from './registry.js';
+import { TargetPackageManager } from './targetPackageManager/index.js';
+import { detectPackageManager } from './targetPackageManager/detection.js';
 import { api as packAndSignApi } from './codeSigning/packAndSign.js';
 import { SigningResponse } from './codeSigning/SimplifiedSigning.js';
 import { Package } from './package.js';
-import { Registry } from './registry.js';
 
 export type Access = 'public' | 'restricted';
 
@@ -36,8 +36,8 @@ export type PackageInfo = {
 
 type PollFunction = () => boolean;
 
-type RepositoryOptions = {
-  ux: Ux;
+export type RepositoryOptions = {
+  ux?: Ux;
   useprerelease?: string;
 };
 
@@ -46,6 +46,7 @@ abstract class Repository extends AsyncOptionalCreatable<RepositoryOptions> {
   protected ux: Ux;
   protected env: Env;
   protected registry: Registry;
+  protected packageManager!: TargetPackageManager;
   private stepCounter = 1;
 
   public constructor(options: RepositoryOptions | undefined) {
@@ -56,35 +57,33 @@ abstract class Repository extends AsyncOptionalCreatable<RepositoryOptions> {
     this.registry = new Registry();
   }
 
-  public install(silent = false): void {
-    this.execCommand(`yarn install ${this.registry.getRegistryParameter()}`, silent);
+  public printStage(stage: string): void {
+    this.ux.log(`${chalk.cyan.bold(`[${this.stepCounter++}/${this.stepCounter}]`)} ${stage}`);
   }
 
-  public build(silent = false): void {
-    this.execCommand('yarn build', silent);
+  public install(silent = false): void {
+    this.execCommand(this.packageManager.getInstallCommand(this.registry.getRegistryParameter()), silent);
+  }
+
+  public deduplicate(silent = false): void {
+    this.execCommand(this.packageManager.getDeduplicateCommand(), silent);
   }
 
   public run(script: string, location?: string, silent = false): void {
     if (location) {
-      this.execCommand(`(cd ${location} && yarn run ${script})`, silent);
+      this.execCommand(`(cd ${location} && ${this.packageManager.getScriptCommand(script)})`, silent);
     } else {
-      this.execCommand(`(yarn run ${script})`, silent);
+      this.execCommand(this.packageManager.getScriptCommand(script), silent);
     }
   }
 
   public test(): void {
-    this.execCommand('yarn test');
+    this.execCommand(this.packageManager.getScriptCommand('test'));
   }
 
-  public printStage(msg: string): void {
-    this.ux.log(chalk.green.bold(`${os.EOL}${this.stepCounter}) ${msg}`));
-    this.stepCounter += 1;
-  }
-
-  public async writeNpmToken(): Promise<void> {
-    const home = this.env.getString('HOME') ?? os.homedir();
-    await this.registry.setNpmAuth(home);
-    await this.registry.setNpmRegistry(home);
+  protected async init(): Promise<void> {
+    this.packageManager = detectPackageManager(process.cwd());
+    return Promise.resolve();
   }
 
   protected execCommand(cmd: string, silent?: boolean): shelljs.ShellString {
@@ -127,7 +126,6 @@ abstract class Repository extends AsyncOptionalCreatable<RepositoryOptions> {
   public abstract publish(options: PublishOpts): Promise<void>;
   public abstract sign(packageNames?: string[]): Promise<SigningResponse | SigningResponse[]>;
   public abstract waitForAvailability(): Promise<boolean>;
-  protected abstract init(): Promise<void>;
 }
 
 export class PackageRepo extends Repository {
@@ -135,23 +133,15 @@ export class PackageRepo extends Repository {
   public name!: string;
   public nextVersion!: string;
   public package!: Package;
-
-  // Both loggers are used because some logs we only want to show in the debug output
-  // but other logs we always want to go to stdout
-  private logger!: Logger;
+  private useprerelease?: string;
 
   public constructor(options: RepositoryOptions | undefined) {
     super(options);
+    this.useprerelease = options?.useprerelease;
   }
 
-  public async sign(): Promise<SigningResponse> {
-    packAndSignApi.setUx(this.ux);
-    return packAndSignApi.packSignVerifyModifyPackageJSON(this.package.location);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  public async revertChanges(): Promise<void> {
-    return packAndSignApi.revertPackageJsonIfExists();
+  public getSuccessMessage(): string {
+    return chalk.green.bold(`Successfully released ${this.name}@${this.nextVersion}`);
   }
 
   public getPkgInfo(): PackageInfo {
@@ -162,54 +152,70 @@ export class PackageRepo extends Repository {
     };
   }
 
+  public async writeNpmToken(): Promise<void> {
+    const token = this.env.getString('NPM_TOKEN');
+    if (!token) {
+      throw new SfError('NPM_TOKEN environment variable is not set');
+    }
+    await this.registry.setNpmAuth(this.package.location);
+  }
+
   public async publish(opts: PublishOpts = {}): Promise<void> {
     const { dryrun, signatures, access, tag } = opts;
     if (!dryrun) await this.writeNpmToken();
-    let cmd = 'npm publish';
-    if (signatures?.[0]?.fileTarPath) cmd += ` ${signatures[0]?.fileTarPath}`;
-    if (tag) cmd += ` --tag ${tag}`;
-    if (dryrun) cmd += ' --dry-run';
-    cmd += ` ${this.registry.getRegistryParameter()}`;
-    cmd += ` --access ${access ?? 'public'}`;
+    const cmd = this.packageManager.getPublishCommand(
+      this.registry.getRegistryParameter(),
+      access,
+      tag,
+      dryrun,
+      signatures?.[0]?.fileTarPath
+    );
     this.execCommand(cmd);
+  }
+
+  public async sign(): Promise<SigningResponse> {
+    packAndSignApi.setUx(this.ux);
+    return packAndSignApi.packSignVerifyModifyPackageJSON(this.package.location);
   }
 
   public async waitForAvailability(): Promise<boolean> {
     return this.poll(() => this.package.nextVersionIsAvailable(this.nextVersion));
   }
 
-  public getSuccessMessage(): string {
-    return chalk.green.bold(`Successfully released ${this.name}@${this.nextVersion}`);
+  // eslint-disable-next-line class-methods-use-this
+  public async revertChanges(): Promise<void> {
+    return packAndSignApi.revertPackageJsonIfExists();
+  }
+
+  public build(silent = false): void {
+    // Check if build script exists in package.json
+    if (!this.package.packageJson.scripts?.build) {
+      this.ux.log('No build script found in package.json, skipping build step');
+      return;
+    }
+    this.execCommand(this.packageManager.getBuildCommand(), silent);
   }
 
   protected async init(): Promise<void> {
-    this.logger = await Logger.child(this.constructor.name);
-    this.package = await Package.create({ location: undefined });
-    this.nextVersion = this.determineNextVersion();
+    await super.init();
+    this.package = await Package.create();
+    this.name = this.package.name;
 
-    this.name = this.package.npmPackage.name;
-  }
-
-  private determineNextVersion(): string {
+    // If the version in package.json doesn't exist in the registry, use it directly
     if (this.package.nextVersionIsHardcoded()) {
-      this.logger.debug(
-        `${this.package.packageJson.name}@${this.package.packageJson.version} does not exist in the registry. Assuming that it's the version we want published`
-      );
-      return this.package.packageJson.version;
+      this.nextVersion = this.package.packageJson.version;
     } else {
-      this.logger.debug('Using standard-version to determine next version');
-      let command = 'npx standard-version --dry-run --skip.tag --skip.commit --skip.changelog';
-      // It can be an empty string if they want
-      if (isString(this.options?.useprerelease)) {
-        command += ` --prerelease ${this.options?.useprerelease}`;
+      // Use standard-version to determine the next version
+      const prereleaseArg = this.useprerelease ? ` --prerelease ${this.useprerelease}` : '';
+      const cmd = `standard-version --dryrun --skip.tag --skip.changelog --skip.commit${prereleaseArg}`;
+      const result = this.execCommand(this.packageManager.getScriptCommand(cmd), true);
+      const match = result.stdout.match(/bumping version in .* from .* to (.*)/);
+      if (match) {
+        this.nextVersion = match[1];
+      } else {
+        // Fallback to determineNextVersion if standard-version output doesn't match expected format
+        this.nextVersion = this.package.determineNextVersion(false, this.useprerelease);
       }
-      const result = this.execCommand(command, true);
-      const nextVersionRegex = /(?<=to\s)([0-9]{1,}\.|.){2,}/gi;
-      const nextVersion = result.match(nextVersionRegex)?.[0];
-      if (!nextVersion) {
-        throw new SfError(`Could not determine next version from ${result} using regex`);
-      }
-      return nextVersion;
     }
   }
 }

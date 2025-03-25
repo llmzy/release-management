@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /*
- * Copyright (c) 2018, salesforce.com, inc.
+ * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -19,7 +20,7 @@ import { ProxyAgent } from 'proxy-agent';
 
 import { PackageJson } from '../package.js';
 
-import { signVerifyUpload as sign2, SigningResponse, getSfdxProperty } from './SimplifiedSigning.js';
+import { signVerifyUpload as sign2, SigningResponse, getSignaturesProperty } from './SimplifiedSigning.js';
 
 class PathGetter {
   private static packageJson = 'package.json';
@@ -259,10 +260,15 @@ export const api = {
       const packageNameWithOrWithoutScope = npmName.scope ? `@${npmName.scope}/${npmName.name}` : npmName.name;
       // we have to modify package.json with security URLs BEFORE packing
       // update the package.json object with the signature urls and write it to disk.
-      packageJson.sfdx = getSfdxProperty(packageNameWithOrWithoutScope, npmName.tag);
+      const signatureUrls = getSignaturesProperty(packageNameWithOrWithoutScope, npmName.tag);
+      // Store signature info in 'signatures' property, not 'sfdx'
+      packageJson.signatures = {
+        signatureUrl: signatureUrls.signatureUrl,
+        publicKeyUrl: signatureUrls.publicKeyUrl,
+      };
       await api.writePackageJson(packageJson);
       cliUx.log('Successfully updated package.json with public key and signature file locations.');
-      cliUx.styledJSON(packageJson.sfdx);
+      cliUx.styledJSON(packageJson.signatures as unknown as Record<string, string>);
 
       const filepath = await api.pack();
       cliUx.log(`Packed tgz to ${filepath}`);

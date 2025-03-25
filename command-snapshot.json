@@ -161,11 +161,11 @@
   },
   {
     "alias": [],
-    "command": "plugins:trust:verify",
+    "command": "npm:package:verify",
     "flagAliases": [],
     "flagChars": ["n", "r"],
-    "flags": ["flags-dir", "json", "loglevel", "npm", "registry"],
-    "plugin": "@salesforce/plugin-trust"
+    "flags": ["flags-dir", "json", "npm", "registry"],
+    "plugin": "@llmzy/release-management"
   },
   {
     "alias": [],

@@ -8,3 +8,4 @@ dist/
 .wireit/
 oclif.manifest.json
 command-snapshot.json
+eslint-rules/

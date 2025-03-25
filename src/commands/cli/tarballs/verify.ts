@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2021, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -243,6 +244,7 @@ export default class Verify extends SfCommand<void> {
         `${this.baseDir}/README.md`,
         `${this.baseDir}/CHANGELOG.md`,
         `${this.baseDir}/yarn.lock`,
+        `${this.baseDir}/package-lock.json`,
         `${this.baseDir}/npm-shrinkwrap.json`,
         `${this.baseDir}/oclif.manifest.json`,
         `${this.baseDir}/oclif.lock`,

@@ -2,6 +2,14 @@
 
 publish npm package
 
+# examples
+
+- <%= config.bin %> <%= command.id %>
+
+- <%= config.bin %> <%= command.id %> --dryrun
+
+- <%= config.bin %> <%= command.id %> --sign
+
 # flags.dryrun.summary
 
 If true, will not commit changes to repo or push any tags
