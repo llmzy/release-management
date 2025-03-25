@@ -158,7 +158,6 @@ sfdx plugins
 - [`llmzy-release cli artifacts compare`](#llmzy-release-cli-artifacts-compare)
 - [`llmzy-release cli install jit test`](#llmzy-release-cli-install-jit-test)
 - [`llmzy-release cli install test`](#llmzy-release-cli-install-test)
-- [`llmzy-release cli latestrc build`](#llmzy-release-cli-latestrc-build)
 - [`llmzy-release cli release automerge`](#llmzy-release-cli-release-automerge)
 - [`llmzy-release cli release build`](#llmzy-release-cli-release-build)
 - [`llmzy-release cli releasenotes`](#llmzy-release-cli-releasenotes)
@@ -213,7 +212,7 @@ EXAMPLES
   $ llmzy-release channel promote --candidate latest-rc --target latest --platform win --platform mac
 ```
 
-_See code: [src/commands/channel/promote.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/channel/promote.ts)_
+_See code: [src/commands/channel/promote.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/channel/promote.ts)_
 
 ## `llmzy-release cli artifacts compare`
 
@@ -237,7 +236,7 @@ EXAMPLES
   $ llmzy-release cli artifacts compare
 ```
 
-_See code: [src/commands/cli/artifacts/compare.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/artifacts/compare.ts)_
+_See code: [src/commands/cli/artifacts/compare.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/artifacts/compare.ts)_
 
 ## `llmzy-release cli install jit test`
 
@@ -258,7 +257,7 @@ EXAMPLES
   $ llmzy-release cli install jit test
 ```
 
-_See code: [src/commands/cli/install/jit/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/install/jit/test.ts)_
+_See code: [src/commands/cli/install/jit/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/install/jit/test.ts)_
 
 ## `llmzy-release cli install test`
 
@@ -299,68 +298,7 @@ EXAMPLES
   $ llmzy-release cli install test --cli sf --method tarball --channel stable-rc
 ```
 
-_See code: [src/commands/cli/install/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/install/test.ts)_
-
-## `llmzy-release cli latestrc build`
-
-builds a new release from a designated starting point and optionally creates PR in Github
-
-```
-USAGE
-  $ llmzy-release cli latestrc build -c <value> [--json] [--flags-dir <value>] [-d <value>] [-g <value>] [--build-only]
-    [--resolutions] [--only <value>...] [--pinned-deps] [--jit] [--label <value>...] [--patch] [--empty]
-    [--pr-base-branch <value>]
-
-FLAGS
-  -c, --release-channel=<value>          (required) the channel intended for this release, examples: nightly, latest-rc,
-                                         latest, dev, beta, etc...
-  -d, --start-from-npm-dist-tag=<value>  the npm dist-tag to start the release from, examples: nightly, latest-rc
-  -g, --start-from-github-ref=<value>    a Github ref to start the release from, examples: main, 7.144.0, f476e8e
-      --build-only                       only build the release, do not git add/commit/push
-      --empty                            create an empty release PR for pushing changes to later (version will still be
-                                         bumped)
-      --[no-]jit                         bump the versions of the packages listed in the jitPlugins (just-in-time)
-                                         section
-      --label=<value>...                 add one or more labels to the Github PR
-      --only=<value>...                  only bump the version of the packages passed in, uses latest if version is not
-                                         provided
-      --patch                            bump the release as a patch of an existing version, not a new minor version
-      --[no-]pinned-deps                 bump the versions of the packages listed in the pinnedDependencies section
-      --pr-base-branch=<value>           base branch to create the PR against; if not specified, the build determines
-                                         the branch for you
-      --[no-]resolutions                 bump the versions of packages listed in the resolutions section
-
-GLOBAL FLAGS
-  --flags-dir=<value>  Import flag values from a directory.
-  --json               Format output as json.
-
-DESCRIPTION
-  builds a new release from a designated starting point and optionally creates PR in Github
-
-  builds a new release from a designated starting point and optionally creates PR in Github
-
-ALIASES
-  $ llmzy-release cli latestrc build
-
-EXAMPLES
-  $ llmzy-release cli latestrc build
-
-  $ llmzy-release cli latestrc build --patch
-
-  $ llmzy-release cli latestrc build --start-from-npm-dist-tag latest-rc --patch
-
-  $ llmzy-release cli latestrc build --start-from-github-ref 7.144.0
-
-  $ llmzy-release cli latestrc build --start-from-github-ref main
-
-  $ llmzy-release cli latestrc build --start-from-github-ref f476e8e
-
-  $ llmzy-release cli latestrc build --start-from-github-ref main --prerelease beta
-
-  $ llmzy-release cli latestrc build --build-only
-
-  $ llmzy-release cli latestrc build --only @salesforce/plugin-source,@salesforce/plugin-info@1.2.3
-```
+_See code: [src/commands/cli/install/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/install/test.ts)_
 
 ## `llmzy-release cli release automerge`
 
@@ -391,7 +329,7 @@ EXAMPLES
   $ llmzy-release cli release automerge --owner salesforcecli --repo sfdx-cli --pul-number 1049
 ```
 
-_See code: [src/commands/cli/release/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/release/automerge.ts)_
+_See code: [src/commands/cli/release/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/release/automerge.ts)_
 
 ## `llmzy-release cli release build`
 
@@ -454,7 +392,7 @@ EXAMPLES
   $ llmzy-release cli release build --only @salesforce/plugin-source,@salesforce/plugin-info@1.2.3
 ```
 
-_See code: [src/commands/cli/release/build.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/release/build.ts)_
+_See code: [src/commands/cli/release/build.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/release/build.ts)_
 
 ## `llmzy-release cli releasenotes`
 
@@ -495,7 +433,7 @@ EXAMPLES
   $ llmzy-release cli releasenotes --cli sf --markdown > changes.md
 ```
 
-_See code: [src/commands/cli/releasenotes.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/releasenotes.ts)_
+_See code: [src/commands/cli/releasenotes.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/releasenotes.ts)_
 
 ## `llmzy-release cli tarballs prepare`
 
@@ -523,7 +461,7 @@ EXAMPLES
   $ llmzy-release cli tarballs prepare
 ```
 
-_See code: [src/commands/cli/tarballs/prepare.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/tarballs/prepare.ts)_
+_See code: [src/commands/cli/tarballs/prepare.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/tarballs/prepare.ts)_
 
 ## `llmzy-release cli tarballs smoke`
 
@@ -553,7 +491,7 @@ EXAMPLES
   $ llmzy-release cli tarballs smoke
 ```
 
-_See code: [src/commands/cli/tarballs/smoke.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/tarballs/smoke.ts)_
+_See code: [src/commands/cli/tarballs/smoke.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/tarballs/smoke.ts)_
 
 ## `llmzy-release cli tarballs verify`
 
@@ -585,7 +523,7 @@ EXAMPLES
   $ llmzy-release cli tarballs verify --cli sf
 ```
 
-_See code: [src/commands/cli/tarballs/verify.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/tarballs/verify.ts)_
+_See code: [src/commands/cli/tarballs/verify.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/tarballs/verify.ts)_
 
 ## `llmzy-release cli versions inspect`
 
@@ -637,7 +575,7 @@ EXAMPLES
   $ llmzy-release cli versions inspect -l npm -c latest -d chalk -s
 ```
 
-_See code: [src/commands/cli/versions/inspect.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/cli/versions/inspect.ts)_
+_See code: [src/commands/cli/versions/inspect.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/versions/inspect.ts)_
 
 ## `llmzy-release dependabot automerge`
 
@@ -677,7 +615,7 @@ EXAMPLES
   $ llmzy-release dependabot automerge --max-version-bump major
 ```
 
-_See code: [src/commands/dependabot/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/dependabot/automerge.ts)_
+_See code: [src/commands/dependabot/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/dependabot/automerge.ts)_
 
 ## `llmzy-release github check closed`
 
@@ -704,7 +642,7 @@ EXAMPLES
   $ llmzy-release github check closed -o me@gus.com
 ```
 
-_See code: [src/commands/github/check/closed.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/github/check/closed.ts)_
+_See code: [src/commands/github/check/closed.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/github/check/closed.ts)_
 
 ## `llmzy-release npm dependencies pin`
 
@@ -730,7 +668,7 @@ DESCRIPTION
   in the package.json
 ```
 
-_See code: [src/commands/npm/dependencies/pin.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/npm/dependencies/pin.ts)_
+_See code: [src/commands/npm/dependencies/pin.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/npm/dependencies/pin.ts)_
 
 ## `llmzy-release npm package release`
 
@@ -762,7 +700,7 @@ DESCRIPTION
   publish npm package
 ```
 
-_See code: [src/commands/npm/package/release.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/npm/package/release.ts)_
+_See code: [src/commands/npm/package/release.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/npm/package/release.ts)_
 
 ## `llmzy-release plugins trust verify`
 
@@ -791,7 +729,7 @@ EXAMPLES
   $ llmzy-release plugins trust verify --npm @scope/npmName
 ```
 
-_See code: [@salesforce/plugin-trust](https://github.com/salesforcecli/plugin-trust/blob/v3.7.69/src/commands/plugins/trust/verify.ts)_
+_See code: [@salesforce/plugin-trust](https://github.com/salesforcecli/plugin-trust/blob/3.7.69/src/commands/plugins/trust/verify.ts)_
 
 ## `llmzy-release repositories`
 
@@ -830,6 +768,6 @@ EXAMPLES
   $ llmzy-release repositories --json | jq -r '.result[] | select(.name=="sfdx-core") | .packages[] | .url
 ```
 
-_See code: [src/commands/repositories/index.ts](https://github.com/salesforcecli/plugin-release-management/blob/v1.0.0/src/commands/repositories/index.ts)_
+_See code: [src/commands/repositories/index.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/repositories/index.ts)_
 
 <!-- commandsstop -->

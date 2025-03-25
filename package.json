@@ -1,7 +1,7 @@
 {
   "name": "@llmzy/release-management",
   "description": "A plugin for preparing and publishing npm packages",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "Salesforce + Llmzy",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "type": "module",
