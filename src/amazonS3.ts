@@ -4,26 +4,27 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import fs from 'node:fs';
+
 import { ux } from '@oclif/core';
-import got from 'got';
 import { SfError } from '@salesforce/core';
-import chalk from 'chalk';
+import { isString } from '@salesforce/ts-types';
 import AWS from 'aws-sdk';
 import { S3, WebIdentityCredentials } from 'aws-sdk';
-import { CredentialsOptions } from 'aws-sdk/lib/credentials.js';
-import { isString } from '@salesforce/ts-types';
-
 import { GetObjectRequest, GetObjectOutput } from 'aws-sdk/clients/s3.js';
-import { Channel, CLI, S3Manifest, ServiceAvailability } from './types.js';
+import { CredentialsOptions } from 'aws-sdk/lib/credentials.js';
+import chalk from 'chalk';
+import got from 'got';
+
 import { api } from './codeSigning/packAndSign.js';
+import { Channel, CLI, S3Manifest, ServiceAvailability } from './types.js';
 
 import ClientConfiguration = WebIdentityCredentials.ClientConfiguration;
 
-const BASE_URL = 'https://developer.salesforce.com';
-const BUCKET = 'dfc-data-production';
+const BASE_URL = 'https://sigs.llmzy.tools';
+const BUCKET = 'llmzy-downloads-001';
 
 type GetObjectOption = Omit<GetObjectRequest, 'Bucket'>;
 

@@ -5,19 +5,20 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import { Octokit } from '@octokit/core';
+import { Messages, SfError } from '@salesforce/core';
+import { Env } from '@salesforce/kit';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { ensure, ensureString } from '@salesforce/ts-types';
-import { Env } from '@salesforce/kit';
-import { Octokit } from '@octokit/core';
 import chalk from 'chalk';
-import { Messages, SfError } from '@salesforce/core';
-import shelljs from 'shelljs';
 import semver from 'semver';
-import { CLI } from '../../types.js';
+import shelljs from 'shelljs';
+
 import { NpmPackage, parsePackageVersion } from '../../package.js';
+import { CLI } from '../../types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.releasenotes');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.releasenotes');
 
 type Change = {
   author: string;

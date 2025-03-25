@@ -5,20 +5,22 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import path from 'node:path';
-import os from 'node:os';
 import fs from 'node:fs/promises';
-import shelljs from 'shelljs';
-import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import os from 'node:os';
+import path from 'node:path';
+
 import { Messages } from '@salesforce/core';
+import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { ensure } from '@salesforce/ts-types';
-import got from 'got';
 import chalk from 'chalk';
-import { Channel, CLI, ServiceAvailability } from '../../../types.js';
+import got from 'got';
+import shelljs from 'shelljs';
+
 import { AmazonS3, download } from '../../../amazonS3.js';
+import { Channel, CLI, ServiceAvailability } from '../../../types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.install.test');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.install.test');
 
 const ux = new Ux();
 

@@ -6,14 +6,15 @@
  */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
-import os from 'node:os';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import { expect } from 'chai';
-import { shouldThrow, TestContext } from '@salesforce/core/testSetup';
 
+import { shouldThrow, TestContext } from '@salesforce/core/testSetup';
 import { Env } from '@salesforce/kit';
 import { stubMethod } from '@salesforce/ts-sinon';
+import { expect } from 'chai';
+
 import { Registry } from '../src/registry.js';
 
 describe('src/registry', () => {

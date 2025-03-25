@@ -6,16 +6,18 @@
  */
 
 import os from 'node:os';
-import { Ux } from '@salesforce/sf-plugins-core';
-import shelljs from 'shelljs';
+
 import { Logger, SfError } from '@salesforce/core';
 import { AsyncOptionalCreatable, Env, sleep } from '@salesforce/kit';
-import chalk from 'chalk';
+import { Ux } from '@salesforce/sf-plugins-core';
 import { isString } from '@salesforce/ts-types';
+import chalk from 'chalk';
+import shelljs from 'shelljs';
+
+import { api as packAndSignApi } from './codeSigning/packAndSign.js';
+import { SigningResponse } from './codeSigning/SimplifiedSigning.js';
 import { Package } from './package.js';
 import { Registry } from './registry.js';
-import { SigningResponse } from './codeSigning/SimplifiedSigning.js';
-import { api as packAndSignApi } from './codeSigning/packAndSign.js';
 
 export type Access = 'public' | 'restricted';
 

@@ -5,19 +5,21 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { promisify } from 'node:util';
 import { exec as execSync, ExecException } from 'node:child_process';
-import { arrayWithDeprecation, Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { ensureString } from '@salesforce/ts-types';
-import { Env } from '@salesforce/kit';
+import { promisify } from 'node:util';
+
 import { Octokit } from '@octokit/core';
 import { Messages, SfError } from '@salesforce/core';
+import { Env } from '@salesforce/kit';
+import { arrayWithDeprecation, Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { ensureString } from '@salesforce/ts-types';
+
 import { PackageRepo } from '../../../repository.js';
 
 const exec = promisify(execSync);
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.release.build');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.release.build');
 
 export default class build extends SfCommand<void> {
   public static readonly description = messages.getMessage('description');

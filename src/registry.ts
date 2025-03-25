@@ -5,13 +5,14 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { URL } from 'node:url';
-import path from 'node:path';
-import os from 'node:os';
 import fs from 'node:fs/promises';
-import shelljs from 'shelljs';
+import os from 'node:os';
+import path from 'node:path';
+import { URL } from 'node:url';
+
 import { SfError } from '@salesforce/core';
 import { Env } from '@salesforce/kit';
+import shelljs from 'shelljs';
 
 export class Registry {
   public registryEntryLocal: string;

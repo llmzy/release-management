@@ -5,10 +5,11 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { expect } from 'chai';
 import { TestContext } from '@salesforce/core/testSetup';
 import { Env } from '@salesforce/kit';
 import { stubMethod } from '@salesforce/ts-sinon';
+import { expect } from 'chai';
+
 import { verifyDependencies } from '../src/dependencies.js';
 
 describe('Dependencies', () => {

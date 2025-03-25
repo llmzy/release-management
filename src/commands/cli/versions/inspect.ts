@@ -6,22 +6,24 @@
  */
 /* eslint-disable no-await-in-loop */
 
+import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import util from 'node:util';
-import fs from 'node:fs/promises';
+
+import { Interfaces } from '@oclif/core';
+import { Messages, SfError } from '@salesforce/core';
+import { parseJson } from '@salesforce/kit';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { entriesOf } from '@salesforce/ts-types';
+import chalk from 'chalk';
 import fg from 'fast-glob';
 import shelljs from 'shelljs';
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { Messages, SfError } from '@salesforce/core';
-import chalk from 'chalk';
-import { entriesOf } from '@salesforce/ts-types';
-import { parseJson } from '@salesforce/kit';
-import { Interfaces } from '@oclif/core';
+
 import { PackageJson } from '../../../package.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.versions.inspect');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.versions.inspect');
 
 const SALESFORCE_DEP_GLOBS = ['@salesforce/**/*', 'salesforce-alm', 'salesforcedx'];
 
@@ -128,7 +130,7 @@ export default class Inspect extends SfCommand<InspectResult> {
       multiple: true,
     }),
     'ignore-missing': Flags.boolean({
-      summary: messages.getMessage('flags.ignoreMissing.summary'),
+      summary: messages.getMessage('flags.ignore-missing.summary'),
       default: false,
     }),
   };

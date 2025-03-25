@@ -5,16 +5,16 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import { Interfaces } from '@oclif/core';
+import { Messages } from '@salesforce/core';
+import { omit } from '@salesforce/kit';
+import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import chalk from 'chalk';
 import fg from 'fast-glob';
 import shelljs from 'shelljs';
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { Messages } from '@salesforce/core';
-import chalk from 'chalk';
-import { Interfaces } from '@oclif/core';
-import { omit } from '@salesforce/kit';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.tarballs.prepare');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.tarballs.prepare');
 
 /**
  * The functionality of this command is taken entirely from https://github.com/salesforcecli/sfdx-cli/blob/v7.109.0/scripts/clean-for-tarballs

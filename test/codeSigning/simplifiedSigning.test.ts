@@ -5,7 +5,9 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import { writeFile, unlink } from 'node:fs/promises';
+
 import { expect } from 'chai';
+
 import { signVerifyUpload, BASE_URL, SECURITY_PATH } from '../../src/codeSigning/SimplifiedSigning.js';
 
 describe('end-to-end signing locally', () => {

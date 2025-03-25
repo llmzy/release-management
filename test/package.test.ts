@@ -5,12 +5,14 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import path from 'node:path';
 import fs from 'node:fs';
-import { assert, expect } from 'chai';
+import path from 'node:path';
+
 import { TestContext } from '@salesforce/core/testSetup';
-import sinon from 'sinon';
 import { stubMethod } from '@salesforce/ts-sinon';
+import { assert, expect } from 'chai';
+import sinon from 'sinon';
+
 import { Package } from '../src/package.js';
 
 const pkgName = '@salesforce/my-plugin';

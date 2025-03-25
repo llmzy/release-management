@@ -5,27 +5,29 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import fs from 'node:fs';
 import { exec as execSync } from 'node:child_process';
+import fs from 'node:fs';
 import { promisify } from 'node:util';
-import chalk from 'chalk';
-import semver from 'semver';
-import got from 'got';
-import { diff, Operation } from 'just-diff';
-import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { Messages, SfError } from '@salesforce/core';
-import { env, parseJson } from '@salesforce/kit';
+
+import { Interfaces } from '@oclif/core';
 import { Octokit } from '@octokit/core';
 import { paginateRest, PaginateInterface } from '@octokit/plugin-paginate-rest';
+import { Messages, SfError } from '@salesforce/core';
+import { env, parseJson } from '@salesforce/kit';
+import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { ensureString, get, isNumber, JsonMap } from '@salesforce/ts-types';
-import { Interfaces } from '@oclif/core';
+import chalk from 'chalk';
+import got from 'got';
+import { diff, Operation } from 'just-diff';
+import semver from 'semver';
+
 import { PackageJson } from '../../../package.js';
 
 const MyOctokit = Octokit.plugin(paginateRest);
 const exec = promisify(execSync);
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-release-management', 'cli.artifacts.compare');
+const messages = Messages.loadMessages('@llmzy/release-management', 'cli.artifacts.compare');
 
 async function getOwnerAndRepo(plugin: string): Promise<{ owner: string; repo: string }> {
   const result = await exec(`npm view ${plugin} repository.url --json`);
