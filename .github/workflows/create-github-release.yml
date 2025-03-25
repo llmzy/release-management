@@ -14,6 +14,11 @@ on:
         type: string
         description: 'Name to use for the prerelease: beta, dev, etc. NOTE: If this is already set in the package.json, it does not need to be passed in here.'
 
+permissions:
+  contents: write # Allow releases
+  checks: write # Grant checks write permission to the workflow
+  packages: write # Required for GitHub Packages publishing
+
 jobs:
   release:
     # this job will throw if prerelease is true but it doesn't have a prerelease-looking package.json version
