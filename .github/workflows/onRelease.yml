@@ -20,11 +20,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name || inputs.tag  }}
-      - uses: llmzy/salesforcecli-github-workflows/.github/actions/getPreReleaseTag@main
+      - uses: llmzy/github-workflows/.github/actions/getPreReleaseTag@main
         id: distTag
 
   npm:
-    uses: llmzy/salesforcecli-github-workflows/.github/workflows/npmPublish.yml@main
+    uses: llmzy/github-workflows/.github/workflows/npmPublish.yml@main
     needs: [getDistTag]
     with:
       tag: ${{ needs.getDistTag.outputs.tag || 'latest' }}
