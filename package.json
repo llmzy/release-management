@@ -3,7 +3,7 @@
   "description": "A plugin for preparing and publishing npm packages",
   "version": "1.0.0",
   "author": "Salesforce + Llmzy",
-  "bugs": "https://github.com/forcedotcom/cli/issues",
+  "bugs": "https://github.com/llmzy/release-management/issues",
   "type": "module",
   "bin": {
     "llmzy-release": "bin/run.js"
@@ -58,7 +58,7 @@
     "bin",
     "oclif.manifest.json"
   ],
-  "homepage": "https://github.com/salesforcecli/plugin-release-management",
+  "homepage": "https://github.com/llmzy/release-management",
   "keywords": [
     "llmzy",
     "release",
@@ -141,7 +141,10 @@
     },
     "topicSeparator": " "
   },
-  "repository": "salesforcecli/plugin-release-management",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llmzy/release-management.git"
+  },
   "scripts": {
     "build": "wireit",
     "clean": "sf-clean",
