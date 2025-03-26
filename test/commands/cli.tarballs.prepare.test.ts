@@ -13,6 +13,7 @@ import { stubMethod, fromStub, stubInterface } from '@salesforce/ts-sinon';
 import { expect } from 'chai';
 import shelljs from 'shelljs';
 import sinon from 'sinon';
+import slash from 'slash';
 import stripAnsi from 'strip-ansi';
 
 import Prepare from '../../src/commands/cli/tarballs/prepare.js';
@@ -73,8 +74,8 @@ describe('cli:tarballs:prepare', () => {
     fs.mkdirSync(path.join(nodeModulesDir, 'jsforce/browser'), { recursive: true });
     fs.writeFileSync(path.join(nodeModulesDir, 'types.d.ts'), '');
 
-    // Stub shelljs.pwd() to return testDir
-    stubMethod(sandbox, shelljs, 'pwd').returns({ stdout: testDir });
+    // Stub shelljs.pwd() to return testDir with forward slashes
+    stubMethod(sandbox, shelljs, 'pwd').returns({ stdout: slash(testDir) });
   });
 
   afterEach(() => {
@@ -143,24 +144,21 @@ describe('cli:tarballs:prepare', () => {
       'Removing: 1 jsforce/browser directory',
     ]);
 
-    // Verify specific calls to rm for different file types
-    const rmCalls = rmStub.getCalls().map((call) => call.args[1]);
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'JSforceTestSuite'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'README.md'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, '.gitignore'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, '.gitattributes'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, '.eslintrc'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'appveyor.yml'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'circle.yml'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'test.js.map'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'jsforce/dist'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'jsforce/src'));
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'jsforce/browser'));
-    // The command removes test directories under packages
-    // expect(rmCalls).to.include(path.join(nodeModulesDir, 'test'));
-    // expect(rmCalls).to.not.include(path.join(nodeModulesDir, 'src/test'));
-    // The command removes .nyc_output directories at any depth
-    // expect(rmCalls).to.include(path.join(nodeModulesDir, '.nyc_output'));
+    // When comparing paths, use slash to normalize paths
+    const rmCalls = rmStub.getCalls().map((call) => slash(call.args[1] as string));
+
+    // Use normalized paths for comparison
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'JSforceTestSuite')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'README.md')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, '.gitignore')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, '.gitattributes')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, '.eslintrc')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'appveyor.yml')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'circle.yml')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'test.js.map')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'jsforce/dist')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'jsforce/src')));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'jsforce/browser')));
   });
 
   it('should remove type definition files when --types flag is used', async () => {
@@ -171,8 +169,8 @@ describe('cli:tarballs:prepare', () => {
 
     // Verify that rm was called for .d.ts files
     expect(rmStub.called).to.be.true;
-    const rmCalls = rmStub.getCalls().map((call) => call.args[1]);
-    expect(rmCalls).to.include(path.join(nodeModulesDir, 'types.d.ts'));
+    const rmCalls = rmStub.getCalls().map((call) => slash(call.args[1] as string));
+    expect(rmCalls).to.include(slash(path.join(nodeModulesDir, 'types.d.ts')));
 
     // Get only the removal messages and strip ANSI codes
     const removalMessages = cmd.output
@@ -203,8 +201,8 @@ describe('cli:tarballs:prepare', () => {
     await cmd.runIt();
 
     // Verify that rm was not called for .d.ts files
-    const rmCalls = rmStub.getCalls().map((call) => call.args[1]);
-    expect(rmCalls).to.not.include(path.join(nodeModulesDir, 'types.d.ts'));
+    const rmCalls = rmStub.getCalls().map((call) => slash(call.args[1] as string));
+    expect(rmCalls).to.not.include(slash(path.join(nodeModulesDir, 'types.d.ts')));
 
     // Get only the removal messages and strip ANSI codes
     const removalMessages = cmd.output
@@ -250,9 +248,9 @@ describe('cli:tarballs:prepare', () => {
     await cmd.runIt();
 
     // Verify that rm was not called for test directories in allowed paths
-    const rmCalls = rmStub.getCalls().map((call) => call.args[1]);
+    const rmCalls = rmStub.getCalls().map((call) => slash(call.args[1] as string));
     for (const dir of allowedDirs) {
-      expect(rmCalls).to.not.include(path.join(nodeModulesDir, dir, 'test'));
+      expect(rmCalls).to.not.include(slash(path.join(nodeModulesDir, dir, 'test')));
     }
 
     // Get only the removal messages and strip ANSI codes
