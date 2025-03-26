@@ -35,4 +35,6 @@ jobs:
     with:
       tag: ${{ needs.getDistTag.outputs.tag || 'latest' }}
       githubTag: ${{ github.event.release.tag_name || inputs.tag }}
+      publishToGithubPackages: true
+      scope: '@llmzy'
     secrets: inherit
