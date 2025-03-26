@@ -10,6 +10,12 @@ on:
         description: tag that needs to publish
         type: string
         required: true
+
+permissions:
+  contents: write # Allow releases
+  checks: write # Grant checks write permission to the workflow
+  packages: write # Required for GitHub Packages publishing
+
 jobs:
   # parses the package.json version and detects prerelease tag (ex: beta from 4.4.4-beta.0)
   getDistTag:
