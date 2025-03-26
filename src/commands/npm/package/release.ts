@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -11,7 +12,6 @@ import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { isString } from '@salesforce/ts-types';
 import chalk from 'chalk';
-import shelljs from 'shelljs';
 
 import { SigningResponse } from '../../../codeSigning/SimplifiedSigning.js';
 import { verifyDependencies } from '../../../dependencies.js';
@@ -29,6 +29,7 @@ export type ReleaseResult = {
 export default class Release extends SfCommand<ReleaseResult> {
   public static readonly summary = messages.getMessage('description');
   public static readonly description = messages.getMessage('description');
+  public static readonly examples = messages.getMessages('examples');
 
   public static readonly flags = {
     dryrun: Flags.boolean({
@@ -131,7 +132,7 @@ export default class Release extends SfCommand<ReleaseResult> {
 
     if (flags.sign && flags.verify && !flags.dryrun) {
       pkg.printStage('Verify Signed Packaged');
-      this.verifySign(pkg.getPkgInfo());
+      await this.verifySign(pkg.getPkgInfo());
     }
 
     this.log(pkg.getSuccessMessage());
@@ -142,20 +143,19 @@ export default class Release extends SfCommand<ReleaseResult> {
     };
   }
 
-  protected verifySign(pkgInfo: PackageInfo): void {
-    const cmd = 'plugins:trust:verify';
-    const argv = `--npm ${pkgInfo.name}@${pkgInfo.nextVersion} ${pkgInfo.registryParam}`;
+  protected async verifySign(pkgInfo: PackageInfo): Promise<void> {
+    const cmd = 'npm:package:verify';
+    const argv = ['--npm', `${pkgInfo.name}@${pkgInfo.nextVersion}`];
 
-    this.log(chalk.dim(`sf-release ${cmd} ${argv}`) + os.EOL);
+    // Split registry parameter into separate flag and value
+    if (pkgInfo.registryParam) {
+      const [flag, value] = pkgInfo.registryParam.split(/\s+/);
+      argv.push(flag, value);
+    }
+
+    this.log(chalk.dim(`llmzy-release ${cmd} ${argv.join(' ')}`) + os.EOL);
     try {
-      const result = shelljs.exec(`DEBUG=sfdx:* ${this.config.root}/bin/run ${cmd} ${argv}`);
-      if (result.code !== 0) {
-        const sfdxVerifyCmd = `sfdx plugins:trust:verify ${argv}`;
-        this.warn(
-          'Unable to verify the package signature due to:\n\nFailed to find @salesforce/sfdx-scanner@3.1.0 in the registry\n' +
-            `\nYou can manually validate the package signature by running:\n\n${sfdxVerifyCmd}\n`
-        );
-      }
+      await this.config.runCommand(cmd, argv);
     } catch (err) {
       if (!(err instanceof Error) || typeof err !== 'string') {
         throw err;

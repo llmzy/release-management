@@ -1,0 +1,11 @@
+[
+  "src/codeSigning/SimplifiedSigning.ts",
+  "src/codeSigning/packAndSign.ts",
+  "src/commands/cli/release/build.ts",
+  "src/commands/cli/tarballs/verify.ts",
+  "src/commands/npm/package/release.ts",
+  "src/package.ts",
+  "src/repository.ts",
+  "test/codeSigning/simplifiedSigning.test.ts",
+  "test/repository.test.ts"
+]

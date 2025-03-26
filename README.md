@@ -23,18 +23,43 @@ adapting it for Llmzy's infrastructure:
    - Preserved the ephemeral key pair generation for each signing operation
 
 3. **Security**
+
    - Kept security-critical values hardcoded for enhanced security
    - Maintained AWS credentials configuration via environment variables
    - Preserved all core security features of the original package
+
+4. **Compatibility with NPM Projects**
+
+   The package now supports both npm and Yarn package managers for target projects:
+
+   - **Automatic Package Manager Detection**
+
+     - Detects package manager based on presence of `yarn.lock` or `package-lock.json`
+     - Checks `packageManager` field in package.json
+     - Falls back to npm if no clear indicator is found
+
+   - **Package Manager Features**
+
+     - Supports all npm/Yarn commands (install, build, publish, etc.)
+     - Handles registry-specific configurations
+     - Manages package signing and verification for both managers
+     - Preserves lockfile integrity during operations
+
+   - **Registry Support**
+     - Works with npm registry
+     - Supports GitHub Packages
+     - Handles private registries
+     - Maintains authentication for both package managers
 
 Note that this package does quite a bit more than we currently need for the
 Llmzy Release process and eventually we should probably move the few bits we
 need into an entirely new system. We currently depend on the following commands:
 
 - `llmzy-release npm package release --sign` - Signs and publishes npm packages with our
-  signature infrastructure
-- `llmzy-release plugins trust verify --npm <package>` - Verifies package signatures
-  during installation
+  signature infrastructure. The build process uses either yarn or npm depending
+  on what is used natively by the package being released.
+- `llmzy-release npm package verify` - Verifies package signatures during
+  installation, implementing a parallel approach to the release command.
 
 All other commands (CLI release management, channel promotion, artifact
 comparison, etc.) are inherited from the original package but are not currently
@@ -50,7 +75,7 @@ The following steps are automated for package releases
 
 ### Version Bump | Prerelease | ChangeLog
 
-This plugin will not bump your package version for you. Use https://github.com/salesforcecli/github-workflows?tab=readme-ov-file#githubrelease and conventional commit tags to manage that.
+This plugin will not bump your package version for you. Use <https://github.com/salesforcecli/github-workflows?tab=readme-ov-file#githubrelease> and conventional commit tags to manage that.
 
 It used to.
 
@@ -100,7 +125,7 @@ AWS_SECRET_ACCESS_KEY=your_secret_key
 
 ## Issues
 
-Please report any issues at https://github.com/forcedotcom/cli/issues
+Please report any issues at <https://github.com/forcedotcom/cli/issues>
 
 ## Contributing
 
@@ -119,7 +144,7 @@ Please report any issues at https://github.com/forcedotcom/cli/issues
 ### CLA
 
 External contributors will be required to sign a Contributor's License
-Agreement. You can do so by going to https://cla.salesforce.com/sign-cla.
+Agreement. You can do so by going to <https://cla.salesforce.com/sign-cla>.
 
 ### Build
 
@@ -154,23 +179,39 @@ sfdx plugins
 
 <!-- commands -->
 
-- [`llmzy-release channel promote`](#llmzy-release-channel-promote)
-- [`llmzy-release cli artifacts compare`](#llmzy-release-cli-artifacts-compare)
-- [`llmzy-release cli install jit test`](#llmzy-release-cli-install-jit-test)
-- [`llmzy-release cli install test`](#llmzy-release-cli-install-test)
-- [`llmzy-release cli release automerge`](#llmzy-release-cli-release-automerge)
-- [`llmzy-release cli release build`](#llmzy-release-cli-release-build)
-- [`llmzy-release cli releasenotes`](#llmzy-release-cli-releasenotes)
-- [`llmzy-release cli tarballs prepare`](#llmzy-release-cli-tarballs-prepare)
-- [`llmzy-release cli tarballs smoke`](#llmzy-release-cli-tarballs-smoke)
-- [`llmzy-release cli tarballs verify`](#llmzy-release-cli-tarballs-verify)
-- [`llmzy-release cli versions inspect`](#llmzy-release-cli-versions-inspect)
-- [`llmzy-release dependabot automerge`](#llmzy-release-dependabot-automerge)
-- [`llmzy-release github check closed`](#llmzy-release-github-check-closed)
-- [`llmzy-release npm dependencies pin`](#llmzy-release-npm-dependencies-pin)
-- [`llmzy-release npm package release`](#llmzy-release-npm-package-release)
-- [`llmzy-release plugins trust verify`](#llmzy-release-plugins-trust-verify)
-- [`llmzy-release repositories`](#llmzy-release-repositories)
+- [@llmzy/release-management](#llmzyrelease-management)
+  - [Key Changes from Original Package](#key-changes-from-original-package)
+  - [Original Package Description](#original-package-description)
+  - [Releases](#releases)
+    - [Version Bump | Prerelease | ChangeLog](#version-bump--prerelease--changelog)
+    - [Build](#build)
+    - [Signing](#signing)
+    - [Publishing](#publishing)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Environment Variables](#environment-variables)
+  - [Issues](#issues)
+  - [Contributing](#contributing)
+    - [CLA](#cla)
+    - [Build](#build-1)
+- [Commands](#commands)
+  - [`llmzy-release channel promote`](#llmzy-release-channel-promote)
+  - [`llmzy-release cli artifacts compare`](#llmzy-release-cli-artifacts-compare)
+  - [`llmzy-release cli install jit test`](#llmzy-release-cli-install-jit-test)
+  - [`llmzy-release cli install test`](#llmzy-release-cli-install-test)
+  - [`llmzy-release cli release automerge`](#llmzy-release-cli-release-automerge)
+  - [`llmzy-release cli release build`](#llmzy-release-cli-release-build)
+  - [`llmzy-release cli releasenotes`](#llmzy-release-cli-releasenotes)
+  - [`llmzy-release cli tarballs prepare`](#llmzy-release-cli-tarballs-prepare)
+  - [`llmzy-release cli tarballs smoke`](#llmzy-release-cli-tarballs-smoke)
+  - [`llmzy-release cli tarballs verify`](#llmzy-release-cli-tarballs-verify)
+  - [`llmzy-release cli versions inspect`](#llmzy-release-cli-versions-inspect)
+  - [`llmzy-release dependabot automerge`](#llmzy-release-dependabot-automerge)
+  - [`llmzy-release github check closed`](#llmzy-release-github-check-closed)
+  - [`llmzy-release npm dependencies pin`](#llmzy-release-npm-dependencies-pin)
+  - [`llmzy-release npm package release`](#llmzy-release-npm-package-release)
+  - [`llmzy-release plugins trust verify`](#llmzy-release-plugins-trust-verify)
+  - [`llmzy-release repositories`](#llmzy-release-repositories)
 
 ## `llmzy-release channel promote`
 

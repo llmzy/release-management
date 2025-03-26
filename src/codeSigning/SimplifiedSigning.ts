@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -7,7 +8,7 @@
 
 /**
  * Signed npm packages have two fields that point plugin-trust to the URLs for the public key and signature file
- * see src/package.ts/#PackageJsonSfdxProperty
+ * see src/package.ts/#PackageJsonSignatures
  *
  * This code generates a keypair using node's crypto library,
  * signs the tarball,
@@ -27,7 +28,7 @@ import { createReadStream } from 'node:fs';
 import { S3 } from 'aws-sdk';
 
 import { putObject } from '../codeSigning/upload.js';
-import { PackageJsonSfdxProperty } from '../package.js';
+import { PackageJsonSignatures } from '../package.js';
 const CRYPTO_LEVEL = 'RSA-SHA256';
 const BUCKET = 'llmzy-downloads-001';
 export const BASE_URL = 'https://sigs.llmzy.tools';
@@ -49,12 +50,12 @@ export type SigningResponse = {
   signatureContents: string;
   /**
    * matches this pattern for npm meta
-   * "sfdx": {
-   * "publicKeyUrl": "https://developer.salesforce.com/media/salesforce-cli/sfdx-cli-03032020.crt",
-   * "signatureUrl": "https://developer.salesforce.com/media/salesforce-cli/signatures/salesforce-plugin-user-1.3.0.sig"
+   * "signatures": {
+   * "publicKeyUrl": "https://sigs.llmzy.tools/signatures/package-name/1.0.0.crt",
+   * "signatureUrl": "https://sigs.llmzy.tools/signatures/package-name/1.0.0.sig"
    * },
    */
-  packageJsonSfdxProperty: PackageJsonSfdxProperty;
+  packageJsonSignatures: PackageJsonSignatures;
   fileTarPath: string;
   /** npm name, including namespace */
   packageName: string;
@@ -67,7 +68,7 @@ type KeyPair = {
   privateKey: string;
 };
 
-export const getSfdxProperty = (packageName: string, packageVersion: string): PackageJsonSfdxProperty => {
+export const getSignaturesProperty = (packageName: string, packageVersion: string): PackageJsonSignatures => {
   const fullPathNoExtension = `${BASE_URL}/${SECURITY_PATH}/${packageName}/${packageVersion}`;
   return {
     publicKeyUrl: `${fullPathNoExtension}.crt`,
@@ -85,7 +86,7 @@ export const signVerifyUpload = async (signingRequest: SigningRequest): Promise<
   const output: SigningResponse = {
     publicKeyContents: publicKey,
     signatureContents,
-    packageJsonSfdxProperty: getSfdxProperty(packageName, packageVersion),
+    packageJsonSignatures: getSignaturesProperty(packageName, packageVersion),
     fileTarPath: signingRequest.targetFileToSign,
     packageName,
     packageVersion,
@@ -103,9 +104,9 @@ export const signVerifyUpload = async (signingRequest: SigningRequest): Promise<
 const upload = async (input: SigningResponse): Promise<S3.PutObjectOutput[]> =>
   Promise.all([
     // signature file
-    putObject(BUCKET, input.packageJsonSfdxProperty.signatureUrl.replace(`${BASE_URL}/`, ''), input.signatureContents),
+    putObject(BUCKET, input.packageJsonSignatures.signatureUrl.replace(`${BASE_URL}/`, ''), input.signatureContents),
     // publicKey
-    putObject(BUCKET, input.packageJsonSfdxProperty.publicKeyUrl.replace(`${BASE_URL}/`, ''), input.publicKeyContents),
+    putObject(BUCKET, input.packageJsonSignatures.publicKeyUrl.replace(`${BASE_URL}/`, ''), input.publicKeyContents),
   ]);
 
 const getOneTimeUseKeys = (): Promise<KeyPair> =>

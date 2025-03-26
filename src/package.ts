@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -28,6 +29,7 @@ export type PackageJson = {
   repository?: string;
   homepage?: string;
   sfdx?: PackageJsonSfdxProperty;
+  signatures?: PackageJsonSignatures;
   oclif?: {
     plugins?: string[];
     devPlugins?: string[];
@@ -36,6 +38,11 @@ export type PackageJson = {
 } & AnyJson;
 
 export type PackageJsonSfdxProperty = {
+  publicKeyUrl: string;
+  signatureUrl: string;
+};
+
+export type PackageJsonSignatures = {
   publicKeyUrl: string;
   signatureUrl: string;
 };

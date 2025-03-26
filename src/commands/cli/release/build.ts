@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -186,15 +187,13 @@ export default class build extends SfCommand<void> {
     repo.package.writePackageJson();
 
     // Run an install to generate the lock file (skip all pre/post scripts)
-    await this.exec('yarn install --ignore-scripts');
+    repo.install(true);
     // Remove duplicates in the lockfile
-    await this.exec('npx yarn-deduplicate');
+    repo.deduplicate();
     // Run an install with deduplicated dependencies (with scripts)
-    await this.exec('yarn install');
+    repo.install();
     // Generate a new readme with the latest dependencies.
-    await this.exec(
-      'yarn oclif readme --no-aliases --repository-prefix "<%- repo %>/blob/<%- version %>/<%- commandPath %>"'
-    );
+    repo.run('oclif readme --no-aliases --repository-prefix "<%- repo %>/blob/<%- version %>/<%- commandPath %>"');
 
     this.log('Updates complete');
 

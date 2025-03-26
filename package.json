@@ -30,6 +30,7 @@
     "shelljs": "^0.8.5",
     "standard-version": "^9.5.0",
     "strip-ansi": "^6",
+    "tar": "^7.4.3",
     "yarn-deduplicate": "^6.0.2"
   },
   "devDependencies": {
@@ -38,10 +39,12 @@
     "@salesforce/ts-sinon": "^1.4.30",
     "@types/semver": "^7.5.8",
     "@types/shelljs": "^0.8.15",
+    "@types/tar": "^6.1.13",
     "aws-sdk-mock": "^5.9.0",
     "cross-env": "^7.0.3",
     "eslint-plugin-sf-plugin": "^1.20.16",
     "oclif": "^4.17.30",
+    "slash": "^5.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
@@ -73,9 +76,6 @@
     "commands": "./lib/commands",
     "node": "18.0.0",
     "bin": "llmzy-release",
-    "plugins": [
-      "@salesforce/plugin-trust"
-    ],
     "devPlugins": [
       "@oclif/plugin-command-snapshot",
       "@salesforce/plugin-command-reference"
@@ -154,6 +154,7 @@
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
+    "lint:fix": "wireit",
     "postpack": "sf-clean --ignore-signing-artifacts",
     "prepack": "sf-prepack && npm shrinkwrap",
     "prepare": "sf-install",
@@ -203,6 +204,16 @@
         "src/**/*.ts",
         "test/**/*.ts",
         "messages/**",
+        "**/.eslint*",
+        "**/tsconfig.json"
+      ],
+      "output": []
+    },
+    "lint:fix": {
+      "command": "git status --short | cut -c4- | grep -E '^(src/|test/)' | NODE_OPTIONS='--max-old-space-size=4096' xargs yarn eslint --fix",
+      "files": [
+        "src/**/*.ts",
+        "test/**/*.ts",
         "**/.eslint*",
         "**/tsconfig.json"
       ],

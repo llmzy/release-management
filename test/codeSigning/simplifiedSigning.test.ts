@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -28,7 +29,7 @@ describe('end-to-end signing locally', () => {
     };
     const signResult = await signVerifyUpload(request);
     expect(signResult).to.include.keys(['publicKeyContents', 'signatureContents']);
-    expect(signResult.packageJsonSfdxProperty).to.deep.equal({
+    expect(signResult.packageJsonSignatures).to.deep.equal({
       publicKeyUrl: `${BASE_URL}/${SECURITY_PATH}/${request.packageName}/${request.packageVersion}.crt`,
       signatureUrl: `${BASE_URL}/${SECURITY_PATH}/${request.packageName}/${request.packageVersion}.sig`,
     });
@@ -43,7 +44,7 @@ describe('end-to-end signing locally', () => {
     };
     const signResult = await signVerifyUpload(request);
     expect(signResult).to.include.keys(['publicKeyContents', 'signatureContents']);
-    expect(signResult.packageJsonSfdxProperty).to.deep.equal({
+    expect(signResult.packageJsonSignatures).to.deep.equal({
       publicKeyUrl: `${BASE_URL}/${SECURITY_PATH}/${request.packageName}/${request.packageVersion}.crt`,
       signatureUrl: `${BASE_URL}/${SECURITY_PATH}/${request.packageName}/${request.packageVersion}.sig`,
     });
