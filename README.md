@@ -179,39 +179,23 @@ sfdx plugins
 
 <!-- commands -->
 
-- [@llmzy/release-management](#llmzyrelease-management)
-  - [Key Changes from Original Package](#key-changes-from-original-package)
-  - [Original Package Description](#original-package-description)
-  - [Releases](#releases)
-    - [Version Bump | Prerelease | ChangeLog](#version-bump--prerelease--changelog)
-    - [Build](#build)
-    - [Signing](#signing)
-    - [Publishing](#publishing)
-  - [Install](#install)
-  - [Usage](#usage)
-  - [Environment Variables](#environment-variables)
-  - [Issues](#issues)
-  - [Contributing](#contributing)
-    - [CLA](#cla)
-    - [Build](#build-1)
-- [Commands](#commands)
-  - [`llmzy-release channel promote`](#llmzy-release-channel-promote)
-  - [`llmzy-release cli artifacts compare`](#llmzy-release-cli-artifacts-compare)
-  - [`llmzy-release cli install jit test`](#llmzy-release-cli-install-jit-test)
-  - [`llmzy-release cli install test`](#llmzy-release-cli-install-test)
-  - [`llmzy-release cli release automerge`](#llmzy-release-cli-release-automerge)
-  - [`llmzy-release cli release build`](#llmzy-release-cli-release-build)
-  - [`llmzy-release cli releasenotes`](#llmzy-release-cli-releasenotes)
-  - [`llmzy-release cli tarballs prepare`](#llmzy-release-cli-tarballs-prepare)
-  - [`llmzy-release cli tarballs smoke`](#llmzy-release-cli-tarballs-smoke)
-  - [`llmzy-release cli tarballs verify`](#llmzy-release-cli-tarballs-verify)
-  - [`llmzy-release cli versions inspect`](#llmzy-release-cli-versions-inspect)
-  - [`llmzy-release dependabot automerge`](#llmzy-release-dependabot-automerge)
-  - [`llmzy-release github check closed`](#llmzy-release-github-check-closed)
-  - [`llmzy-release npm dependencies pin`](#llmzy-release-npm-dependencies-pin)
-  - [`llmzy-release npm package release`](#llmzy-release-npm-package-release)
-  - [`llmzy-release plugins trust verify`](#llmzy-release-plugins-trust-verify)
-  - [`llmzy-release repositories`](#llmzy-release-repositories)
+- [`llmzy-release channel promote`](#llmzy-release-channel-promote)
+- [`llmzy-release cli artifacts compare`](#llmzy-release-cli-artifacts-compare)
+- [`llmzy-release cli install jit test`](#llmzy-release-cli-install-jit-test)
+- [`llmzy-release cli install test`](#llmzy-release-cli-install-test)
+- [`llmzy-release cli release automerge`](#llmzy-release-cli-release-automerge)
+- [`llmzy-release cli release build`](#llmzy-release-cli-release-build)
+- [`llmzy-release cli releasenotes`](#llmzy-release-cli-releasenotes)
+- [`llmzy-release cli tarballs prepare`](#llmzy-release-cli-tarballs-prepare)
+- [`llmzy-release cli tarballs smoke`](#llmzy-release-cli-tarballs-smoke)
+- [`llmzy-release cli tarballs verify`](#llmzy-release-cli-tarballs-verify)
+- [`llmzy-release cli versions inspect`](#llmzy-release-cli-versions-inspect)
+- [`llmzy-release dependabot automerge`](#llmzy-release-dependabot-automerge)
+- [`llmzy-release github check closed`](#llmzy-release-github-check-closed)
+- [`llmzy-release npm dependencies pin`](#llmzy-release-npm-dependencies-pin)
+- [`llmzy-release npm package release`](#llmzy-release-npm-package-release)
+- [`llmzy-release npm package verify`](#llmzy-release-npm-package-verify)
+- [`llmzy-release repositories`](#llmzy-release-repositories)
 
 ## `llmzy-release channel promote`
 
@@ -253,7 +237,7 @@ EXAMPLES
   $ llmzy-release channel promote --candidate latest-rc --target latest --platform win --platform mac
 ```
 
-_See code: [src/commands/channel/promote.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/channel/promote.ts)_
+_See code: [src/commands/channel/promote.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/channel/promote.ts)_
 
 ## `llmzy-release cli artifacts compare`
 
@@ -277,7 +261,7 @@ EXAMPLES
   $ llmzy-release cli artifacts compare
 ```
 
-_See code: [src/commands/cli/artifacts/compare.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/artifacts/compare.ts)_
+_See code: [src/commands/cli/artifacts/compare.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/artifacts/compare.ts)_
 
 ## `llmzy-release cli install jit test`
 
@@ -298,7 +282,7 @@ EXAMPLES
   $ llmzy-release cli install jit test
 ```
 
-_See code: [src/commands/cli/install/jit/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/install/jit/test.ts)_
+_See code: [src/commands/cli/install/jit/test.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/install/jit/test.ts)_
 
 ## `llmzy-release cli install test`
 
@@ -339,7 +323,7 @@ EXAMPLES
   $ llmzy-release cli install test --cli sf --method tarball --channel stable-rc
 ```
 
-_See code: [src/commands/cli/install/test.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/install/test.ts)_
+_See code: [src/commands/cli/install/test.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/install/test.ts)_
 
 ## `llmzy-release cli release automerge`
 
@@ -370,7 +354,7 @@ EXAMPLES
   $ llmzy-release cli release automerge --owner salesforcecli --repo sfdx-cli --pul-number 1049
 ```
 
-_See code: [src/commands/cli/release/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/release/automerge.ts)_
+_See code: [src/commands/cli/release/automerge.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/release/automerge.ts)_
 
 ## `llmzy-release cli release build`
 
@@ -433,7 +417,7 @@ EXAMPLES
   $ llmzy-release cli release build --only @salesforce/plugin-source,@salesforce/plugin-info@1.2.3
 ```
 
-_See code: [src/commands/cli/release/build.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/release/build.ts)_
+_See code: [src/commands/cli/release/build.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/release/build.ts)_
 
 ## `llmzy-release cli releasenotes`
 
@@ -474,7 +458,7 @@ EXAMPLES
   $ llmzy-release cli releasenotes --cli sf --markdown > changes.md
 ```
 
-_See code: [src/commands/cli/releasenotes.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/releasenotes.ts)_
+_See code: [src/commands/cli/releasenotes.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/releasenotes.ts)_
 
 ## `llmzy-release cli tarballs prepare`
 
@@ -502,7 +486,7 @@ EXAMPLES
   $ llmzy-release cli tarballs prepare
 ```
 
-_See code: [src/commands/cli/tarballs/prepare.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/tarballs/prepare.ts)_
+_See code: [src/commands/cli/tarballs/prepare.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/tarballs/prepare.ts)_
 
 ## `llmzy-release cli tarballs smoke`
 
@@ -532,7 +516,7 @@ EXAMPLES
   $ llmzy-release cli tarballs smoke
 ```
 
-_See code: [src/commands/cli/tarballs/smoke.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/tarballs/smoke.ts)_
+_See code: [src/commands/cli/tarballs/smoke.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/tarballs/smoke.ts)_
 
 ## `llmzy-release cli tarballs verify`
 
@@ -564,7 +548,7 @@ EXAMPLES
   $ llmzy-release cli tarballs verify --cli sf
 ```
 
-_See code: [src/commands/cli/tarballs/verify.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/tarballs/verify.ts)_
+_See code: [src/commands/cli/tarballs/verify.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/tarballs/verify.ts)_
 
 ## `llmzy-release cli versions inspect`
 
@@ -616,7 +600,7 @@ EXAMPLES
   $ llmzy-release cli versions inspect -l npm -c latest -d chalk -s
 ```
 
-_See code: [src/commands/cli/versions/inspect.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/cli/versions/inspect.ts)_
+_See code: [src/commands/cli/versions/inspect.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/cli/versions/inspect.ts)_
 
 ## `llmzy-release dependabot automerge`
 
@@ -656,7 +640,7 @@ EXAMPLES
   $ llmzy-release dependabot automerge --max-version-bump major
 ```
 
-_See code: [src/commands/dependabot/automerge.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/dependabot/automerge.ts)_
+_See code: [src/commands/dependabot/automerge.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/dependabot/automerge.ts)_
 
 ## `llmzy-release github check closed`
 
@@ -683,7 +667,7 @@ EXAMPLES
   $ llmzy-release github check closed -o me@gus.com
 ```
 
-_See code: [src/commands/github/check/closed.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/github/check/closed.ts)_
+_See code: [src/commands/github/check/closed.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/github/check/closed.ts)_
 
 ## `llmzy-release npm dependencies pin`
 
@@ -709,7 +693,7 @@ DESCRIPTION
   in the package.json
 ```
 
-_See code: [src/commands/npm/dependencies/pin.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/npm/dependencies/pin.ts)_
+_See code: [src/commands/npm/dependencies/pin.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/npm/dependencies/pin.ts)_
 
 ## `llmzy-release npm package release`
 
@@ -739,38 +723,48 @@ DESCRIPTION
   publish npm package
 
   publish npm package
+
+EXAMPLES
+  $ llmzy-release npm package release
+
+  $ llmzy-release npm package release --dryrun
+
+  $ llmzy-release npm package release --sign
 ```
 
-_See code: [src/commands/npm/package/release.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/npm/package/release.ts)_
+_See code: [src/commands/npm/package/release.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/npm/package/release.ts)_
 
-## `llmzy-release plugins trust verify`
+## `llmzy-release npm package verify`
 
-Validate a digital signature.
+Verify the digital signature of an npm package.
 
 ```
 USAGE
-  $ llmzy-release plugins trust verify -n <value> [--json] [--flags-dir <value>] [-r <value>]
+  $ llmzy-release npm package verify -n <value> [--json] [--flags-dir <value>] [-r <value>]
 
 FLAGS
-  -n, --npm=<value>       (required) Specify the npm name. This can include a tag/version.
-  -r, --registry=<value>  The registry name. The behavior is the same as npm.
+  -n, --npm=<value>       (required) The npm package name and version to verify (e.g., package-name@1.0.0 or
+                          @scope/package-name@1.0.0)
+  -r, --registry=<value>  The npm registry URL to use (default: https://registry.npmjs.org/)
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Validate a digital signature.
+  Verify the digital signature of an npm package.
 
-  Verifies the digital signature on an npm package matches the signature and key stored at the expected URLs.
+  Verify the digital signature of an npm package.
 
 EXAMPLES
-  $ llmzy-release plugins trust verify --npm @scope/npmName --registry https://npm.pkg.github.com
+  $ llmzy-release npm package verify --npm package-name@1.0.0
 
-  $ llmzy-release plugins trust verify --npm @scope/npmName
+  $ llmzy-release npm package verify --npm @scope/package-name@1.0.0
+
+  $ llmzy-release npm package verify --npm package-name@1.0.0 --registry https://registry.npmjs.org/
 ```
 
-_See code: [@salesforce/plugin-trust](https://github.com/salesforcecli/plugin-trust/blob/3.7.69/src/commands/plugins/trust/verify.ts)_
+_See code: [src/commands/npm/package/verify.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/npm/package/verify.ts)_
 
 ## `llmzy-release repositories`
 
@@ -809,6 +803,6 @@ EXAMPLES
   $ llmzy-release repositories --json | jq -r '.result[] | select(.name=="sfdx-core") | .packages[] | .url
 ```
 
-_See code: [src/commands/repositories/index.ts](https://github.com/salesforcecli/plugin-release-management/blob/0.1.0/src/commands/repositories/index.ts)_
+_See code: [src/commands/repositories/index.ts](https://github.com/llmzy/release-management/blob/1.1.0/src/commands/repositories/index.ts)_
 
 <!-- commandsstop -->
