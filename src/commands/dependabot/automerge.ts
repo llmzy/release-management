@@ -140,23 +140,28 @@ export default class AutoMerge extends SfCommand<void> {
   }
 
   private async isGreen(pr: PullRequest): Promise<PullRequest | undefined> {
-    await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/status', {
-      ...this.baseRepoObject,
-      ref: pr.head.sha,
-    });
+    try {
+      await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/status', {
+        ...this.baseRepoObject,
+        ref: pr.head.sha,
+      });
 
-    const checkRunResponse = await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/check-runs', {
-      ...this.baseRepoObject,
-      ref: pr.head.sha,
-    });
+      const checkRunResponse = await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/check-runs', {
+        ...this.baseRepoObject,
+        ref: pr.head.sha,
+      });
 
-    // If all check runs are completed and successful/skipped, we consider it green
-    if (
-      checkRunResponse.data.check_runs.every(
-        (cr) => cr.status === 'completed' && cr.conclusion && ['success', 'skipped'].includes(cr.conclusion)
-      )
-    ) {
-      return pr;
+      // If all check runs are completed and successful/skipped, we consider it green
+      if (
+        checkRunResponse.data.check_runs.every(
+          (cr) => cr.status === 'completed' && cr.conclusion && ['success', 'skipped'].includes(cr.conclusion)
+        )
+      ) {
+        return pr;
+      }
+    } catch (error) {
+      this.log(`Error checking PR ${pr.number} status: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      return undefined;
     }
   }
 
