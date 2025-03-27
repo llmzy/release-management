@@ -43,7 +43,7 @@
     "aws-sdk-mock": "^5.9.0",
     "cross-env": "^7.0.3",
     "eslint-plugin-sf-plugin": "^1.20.16",
-    "oclif": "^4.17.30",
+    "oclif": "^4.17.41",
     "slash": "^5.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
