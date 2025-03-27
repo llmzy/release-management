@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -36,6 +37,8 @@ export default class AutoMerge extends SfCommand<void> {
   public static readonly summary = messages.getMessage('description');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
+
+  public static readonly GITHUB_SERVICE_ACCOUNT = 'llmzy-cd';
 
   public static readonly flags = {
     owner: Flags.string({
@@ -102,7 +105,7 @@ export default class AutoMerge extends SfCommand<void> {
       stop(`Missing automerge label: [${automergeLabels.join(', ')}]`);
     }
 
-    if (prData.user?.login !== 'svc-cli-bot') {
+    if (prData.user?.login !== AutoMerge.GITHUB_SERVICE_ACCOUNT) {
       stop('PR must be created by "svc-cli-bot"');
     }
 

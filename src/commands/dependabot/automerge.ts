@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020, salesforce.com, inc.
+ * Modifications Copyright (c) 2025, Palomar Digital, LLC.
  * All rights reserved.
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
@@ -45,6 +46,8 @@ export default class AutoMerge extends SfCommand<void> {
   public static readonly description = messages.getMessage('description');
 
   public static readonly examples = messages.getMessages('examples');
+
+  public static readonly GITHUB_SERVICE_ACCOUNT = 'llmzy-cd';
 
   public static readonly flags = {
     owner: Flags.string({
@@ -99,7 +102,7 @@ export default class AutoMerge extends SfCommand<void> {
       (pr) =>
         pr.state === 'open' &&
         (pr.user?.login === 'dependabot[bot]' ||
-          (pr.title.includes('refactor: devScripts update') && pr.user?.login === 'svc-cli-bot'))
+          (pr.title.includes('refactor: devScripts update') && pr.user?.login === AutoMerge.GITHUB_SERVICE_ACCOUNT))
     ) as PullRequest[];
     const greenPRs = (await Promise.all(eligiblePRs.map((pr) => this.isGreen(pr)))).filter(isPrNotUndefined);
     const mergeablePRs = (await Promise.all(greenPRs.map((pr) => this.isMergeable(pr)))).filter(isPrNotUndefined);
@@ -113,6 +116,8 @@ export default class AutoMerge extends SfCommand<void> {
 
     if (!prToMerge) {
       this.log('No PRs can be automerged');
+      this.log('\nPR Status Summary:');
+      this.generatePRStatusTable(eligiblePRs, greenPRs, mergeablePRs);
       return;
     }
 
@@ -135,27 +140,28 @@ export default class AutoMerge extends SfCommand<void> {
   }
 
   private async isGreen(pr: PullRequest): Promise<PullRequest | undefined> {
-    const statusResponse = await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/status', {
-      ...this.baseRepoObject,
-      ref: pr.head.sha,
-    });
-    // no point looking at check runs if the commit status is not green
-    if (statusResponse.data.state !== 'success') {
+    try {
+      await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/status', {
+        ...this.baseRepoObject,
+        ref: pr.head.sha,
+      });
+
+      const checkRunResponse = await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/check-runs', {
+        ...this.baseRepoObject,
+        ref: pr.head.sha,
+      });
+
+      // If all check runs are completed and successful/skipped, we consider it green
+      if (
+        checkRunResponse.data.check_runs.every(
+          (cr) => cr.status === 'completed' && cr.conclusion && ['success', 'skipped'].includes(cr.conclusion)
+        )
+      ) {
+        return pr;
+      }
+    } catch (error) {
+      this.log(`Error checking PR ${pr.number} status: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return undefined;
-    }
-
-    const checkRunResponse = await this.octokit.request('GET /repos/{owner}/{repo}/commits/{ref}/check-runs', {
-      ...this.baseRepoObject,
-      ref: pr.head.sha,
-    });
-    this.styledJSON(checkRunResponse.data);
-
-    if (
-      checkRunResponse.data.check_runs.every(
-        (cr) => cr.status === 'completed' && cr.conclusion && ['success', 'skipped'].includes(cr.conclusion)
-      )
-    ) {
-      return pr;
     }
   }
 
@@ -164,12 +170,30 @@ export default class AutoMerge extends SfCommand<void> {
       ...this.baseRepoObject,
       pull_number: pr.number,
     });
+
     // mergeable_state of 'blocked' is ok because that's just missing an approval.
     // We're screening out 'behind' which might be merge conflicts.
     // Dependabot should rebase this PR eventually
     if (statusResponse.data.mergeable === true && statusResponse.data.mergeable_state !== 'behind') {
       return pr;
     }
+  }
+
+  private generatePRStatusTable(
+    eligiblePRs: PullRequest[],
+    greenPRs: PullRequest[],
+    mergeablePRs: PullRequest[]
+  ): void {
+    const tableData = eligiblePRs.map((pr) => ({
+      'PR Title': pr.title,
+      Link: pr.html_url,
+      Green: greenPRs.some((greenPR) => greenPR.number === pr.number) ? '✓' : '✗',
+      Mergeable: mergeablePRs.some((mergeablePR) => mergeablePR.number === pr.number) ? '✓' : '✗',
+    }));
+
+    this.table({
+      data: tableData,
+    });
   }
 }
 
