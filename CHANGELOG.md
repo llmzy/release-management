@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/llmzy/release-management/compare/1.1.2...1.1.3) (2025-03-27)
+
+### Bug Fixes
+
+- add error handling for GitHub API calls in isGreen method ([6920000](https://github.com/llmzy/release-management/commit/6920000b2de61206327a5a202b111084cc968717))
+- removed commit check that was causing PRs to be disqualified even when all runs came back clean ([274248b](https://github.com/llmzy/release-management/commit/274248b98c50ca3312de3e858cb0a0d5f4c82b2a))
+
 ## [1.1.2](https://github.com/llmzy/release-management/compare/1.1.1...1.1.2) (2025-03-27)
 
 ### Bug Fixes
