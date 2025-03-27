@@ -5,6 +5,18 @@
 - changelog will now be generated properly for the fork ([8f7e76b](https://github.com/llmzy/release-management/commit/8f7e76bb864d4b87d13661d7ff7757d560cb89d7))
 - include the original project changelog in the output ([f450207](https://github.com/llmzy/release-management/commit/f450207053e3949758080958fe43ae1fb9816eed))
 
+## [1.1.1](https://github.com/llmzy/release-management/compare/1.1.0...1.1.1) (2025-03-26)
+
+### Bug Fixes
+
+- workflows now properly use private packages ([c3f7576](https://github.com/llmzy/release-management/commit/c3f75768d9dbf1493508caaa70b99e0adde1a2b6))
+
+## [1.1.0](https://github.com/llmzy/release-management/compare/1.0.0...1.1.0) (2025-03-26)
+
+### Features
+
+- now properly releases and verifies both yarn and npm packages ([ad15023](https://github.com/llmzy/release-management/commit/ad1502316bb38a25d7f947a0abfe34d3b324653c))
+
 ## Version History from @saleforce/plugin-release-management
 
 See the original project at [@salesforce/plugin-release-management](https://github.com/salesforcecli/plugin-release-management).
