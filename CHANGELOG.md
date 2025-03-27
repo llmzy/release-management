@@ -1,3 +1,9 @@
+## [1.1.4](https://github.com/llmzy/release-management/compare/1.1.3...1.1.4) (2025-03-27)
+
+### Bug Fixes
+
+- **deps:** bump @octokit/plugin-paginate-rest from 11.4.2 to 11.6.0 ([422a9aa](https://github.com/llmzy/release-management/commit/422a9aa5dc1a8faddf9d0737dae5ecdc5e9cb8be))
+
 ## [1.1.3](https://github.com/llmzy/release-management/compare/1.1.2...1.1.3) (2025-03-27)
 
 ### Bug Fixes
