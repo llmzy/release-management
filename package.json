@@ -37,7 +37,7 @@
     "@oclif/plugin-command-snapshot": "^5.2.37",
     "@salesforce/dev-scripts": "^10.2.12",
     "@salesforce/ts-sinon": "^1.4.30",
-    "@types/semver": "^7.5.8",
+    "@types/semver": "^7.7.0",
     "@types/shelljs": "^0.8.15",
     "@types/tar": "^6.1.13",
     "aws-sdk-mock": "^5.9.0",
