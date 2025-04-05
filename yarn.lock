@@ -1699,10 +1699,10 @@
   dependencies:
     "@octokit/types" "^13.10.0"
 
-"@octokit/plugin-throttling@^9.4.0":
-  version "9.4.0"
-  resolved "https://registry.npmjs.org/@octokit/plugin-throttling/-/plugin-throttling-9.4.0.tgz"
-  integrity sha512-IOlXxXhZA4Z3m0EEYtrrACkuHiArHLZ3CvqWwOez/pURNqRuwfoFlTPbN5Muf28pzFuztxPyiUiNwz8KctdZaQ==
+"@octokit/plugin-throttling@^9.6.1":
+  version "9.6.1"
+  resolved "https://registry.yarnpkg.com/@octokit/plugin-throttling/-/plugin-throttling-9.6.1.tgz#96304433b65474595bd87bb60d27b60b9efed681"
+  integrity sha512-bt3EBUkeKUzDQXRCcFrR9SWVqlLFRRqcCrr6uAorWt6NXTyjMKqcGrFmXqJy9NCbnKgiIZ2OXWq04theFc76Jg==
   dependencies:
     "@octokit/types" "^13.7.0"
     bottleneck "^2.15.3"
