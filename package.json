@@ -42,7 +42,7 @@
     "@types/tar": "^6.1.13",
     "aws-sdk-mock": "^5.9.0",
     "cross-env": "^7.0.3",
-    "eslint-plugin-sf-plugin": "^1.20.16",
+    "eslint-plugin-sf-plugin": "^1.20.18",
     "oclif": "^4.17.42",
     "slash": "^5.1.0",
     "ts-node": "^10.9.2",
