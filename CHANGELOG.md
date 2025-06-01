@@ -1,3 +1,17 @@
+## [1.1.6](https://github.com/llmzy/release-management/compare/1.1.5...1.1.6) (2025-06-01)
+
+### Bug Fixes
+
+- **deps:** bump @octokit/core from 6.1.4 to 6.1.5 ([2bebec0](https://github.com/llmzy/release-management/commit/2bebec06a86dd9993582d6dea831c92e580ee4f3))
+- **deps:** bump @octokit/plugin-throttling from 9.4.0 to 9.6.1 ([a95f3c5](https://github.com/llmzy/release-management/commit/a95f3c56e5e7e2520a1f163066a2cb056ad744ac))
+- **deps:** bump @salesforce/core from 8.8.7 to 8.9.0 ([99b7809](https://github.com/llmzy/release-management/commit/99b7809218c21507aa1bf9e5fee2da47c04ed558))
+- **deps:** bump @salesforce/core from 8.9.0 to 8.11.4 ([be6f839](https://github.com/llmzy/release-management/commit/be6f839d1a25336d839c877675c71874042b47fc))
+- **deps:** bump @salesforce/plugin-command-reference ([428cccd](https://github.com/llmzy/release-management/commit/428cccd21ab894c152dc5ff3cd5bfba06b351307))
+- **deps:** bump @salesforce/plugin-trust from 3.7.75 to 3.7.76 ([3f74a02](https://github.com/llmzy/release-management/commit/3f74a02c6093f505156a3c4afc7210fef3261db7))
+- **deps:** bump @salesforce/plugin-trust from 3.7.76 to 3.7.80 ([a8d66c8](https://github.com/llmzy/release-management/commit/a8d66c86d167bc146214d5252b546e25245a6984))
+- **deps:** bump @salesforce/sf-plugins-core from 12.2.0 to 12.2.1 ([cf39c49](https://github.com/llmzy/release-management/commit/cf39c491e4daee9254ae44460d85225a0a970ddc))
+- **deps:** bump shelljs from 0.8.5 to 0.9.2 ([c7f1d31](https://github.com/llmzy/release-management/commit/c7f1d31a20117e436af4f61aff24bed78be44165))
+
 ## [1.1.5](https://github.com/llmzy/release-management/compare/1.1.4...1.1.5) (2025-03-27)
 
 ### Bug Fixes
