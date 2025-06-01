@@ -1,3 +1,9 @@
+## [1.1.8](https://github.com/llmzy/release-management/compare/1.1.7...1.1.8) (2025-06-01)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/plugin-command-reference ([1d08466](https://github.com/llmzy/release-management/commit/1d084662e0da86145dc1f6b0fe2865888199d29b))
+
 ## [1.1.7](https://github.com/llmzy/release-management/compare/1.1.6...1.1.7) (2025-06-01)
 
 ### Bug Fixes
