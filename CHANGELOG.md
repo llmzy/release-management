@@ -1,3 +1,9 @@
+## [1.1.10](https://github.com/llmzy/release-management/compare/1.1.9...1.1.10) (2025-06-15)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.2.10 to 4.3.3 ([58e4019](https://github.com/llmzy/release-management/commit/58e401909ec97e30b71ae07223e1381001d78193))
+
 ## [1.1.9](https://github.com/llmzy/release-management/compare/1.1.8...1.1.9) (2025-06-15)
 
 ### Bug Fixes
