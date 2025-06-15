@@ -1,3 +1,9 @@
+## [1.1.9](https://github.com/llmzy/release-management/compare/1.1.8...1.1.9) (2025-06-15)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.11.4 to 8.14.0 ([8ccef06](https://github.com/llmzy/release-management/commit/8ccef062725ac226d634535065449a138e90221f))
+
 ## [1.1.8](https://github.com/llmzy/release-management/compare/1.1.7...1.1.8) (2025-06-01)
 
 ### Bug Fixes
