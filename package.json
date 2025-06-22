@@ -17,7 +17,7 @@
     "@salesforce/core": "^8.14.0",
     "@salesforce/kit": "^3.2.0",
     "@salesforce/plugin-command-reference": "^3.1.54",
-    "@salesforce/plugin-trust": "^3.7.97",
+    "@salesforce/plugin-trust": "^3.7.100",
     "@salesforce/sf-plugins-core": "^12.2.1",
     "@salesforce/ts-types": "^2.0.11",
     "aws-sdk": "^2.1692.0",
