@@ -1,3 +1,9 @@
+## [1.1.12](https://github.com/llmzy/release-management/compare/1.1.11...1.1.12) (2025-06-22)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 12.2.1 to 12.2.2 ([4d93d9c](https://github.com/llmzy/release-management/commit/4d93d9cd63a52414b985835bb665721213a2fc8a))
+
 ## [1.1.11](https://github.com/llmzy/release-management/compare/1.1.10...1.1.11) (2025-06-22)
 
 ### Bug Fixes
