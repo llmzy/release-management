@@ -1,3 +1,9 @@
+## [1.1.15](https://github.com/llmzy/release-management/compare/1.1.14...1.1.15) (2025-06-29)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/plugin-trust from 3.7.100 to 3.7.102 ([7541b18](https://github.com/llmzy/release-management/commit/7541b18c85fae879c689ae38fee38a7b18179b36))
+
 ## [1.1.14](https://github.com/llmzy/release-management/compare/1.1.13...1.1.14) (2025-06-29)
 
 ### Bug Fixes
