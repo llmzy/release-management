@@ -1,3 +1,9 @@
+## [1.1.16](https://github.com/llmzy/release-management/compare/1.1.15...1.1.16) (2025-07-06)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.4.0 to 4.4.1 ([8841226](https://github.com/llmzy/release-management/commit/884122632ccb69ac7033ff9cb3a8209e26beafba))
+
 ## [1.1.15](https://github.com/llmzy/release-management/compare/1.1.14...1.1.15) (2025-06-29)
 
 ### Bug Fixes
