@@ -1,3 +1,9 @@
+## [1.1.18](https://github.com/llmzy/release-management/compare/1.1.17...1.1.18) (2025-07-06)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/plugin-trust from 3.7.104 to 3.7.108 ([bb93600](https://github.com/llmzy/release-management/commit/bb93600ce63057257b7605afa596640c10659912))
+
 ## [1.1.17](https://github.com/llmzy/release-management/compare/1.1.16...1.1.17) (2025-07-06)
 
 ### Bug Fixes
